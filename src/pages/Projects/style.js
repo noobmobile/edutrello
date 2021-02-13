@@ -1,6 +1,6 @@
 import 'antd/dist/antd.css';
 import styled from "styled-components";
-import {Card} from "antd";
+import {Card, List} from "antd";
 import {colors} from "../../styles/colors";
 
 export const Container = styled.div`
@@ -32,11 +32,15 @@ export const StyledCard = styled(Card)`
     padding: 10px;
   }
   .ant-list-item {
-    background-color: white;
-    height: 100%;
-    border-radius: 3px;
-    padding: 6px 8px;
-    cursor: pointer;
-    box-shadow: 0 1px 0 rgba(9,30,66,.25);
+
   }
+`
+
+export const StyledItem = styled(List.Item)`
+  background-color: white;
+  height: 100%;
+  border-radius: 3px;
+  padding: 6px 8px;
+  cursor: pointer;
+  box-shadow: 0 1px 0 rgba(9,30,66,.25);
 `

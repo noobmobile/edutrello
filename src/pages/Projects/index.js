@@ -9,6 +9,7 @@ import ListDnd from "./components/ListDnd";
 import {useEffect} from "react";
 import CardDnd from "./components/CardDnd";
 import ListItemDnd from "./components/ListItemDnd";
+import CustomDragLayer from "./components/CustomDragLayer";
 
 class Project extends React.Component {
 
@@ -51,6 +52,7 @@ class Project extends React.Component {
         return (
             <Container>
                 <DndProvider backend={HTML5Backend}>
+                    <CustomDragLayer/>
                     {this.props.project
                         ? this.buildCards(this.props.project)
                         : this.buildEmptyCards()

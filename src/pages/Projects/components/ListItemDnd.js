@@ -5,6 +5,9 @@ import {useDrag, useDrop} from "react-dnd";
 import {DragTypes} from "../constants";
 import {moveTaskRequest} from "../../../store/modules/projects/action";
 import {connect} from "react-redux";
+import {useEffect} from "react";
+import {getEmptyImage} from "react-dnd-html5-backend";
+import {StyledItem} from "../style";
 
 function ListItemDnd(props) {
     function wasDropped(drop, activity, y) {
@@ -14,12 +17,15 @@ function ListItemDnd(props) {
         const {dispatch} = props
         dispatch(moveTaskRequest(item, old, newActivity, y))
     }
-    const [{isDragging}, drag] = useDrag({
-        item: {type: DragTypes.LIST_ITEM, item: props.item, oldActivity: props.activity},
+    const [{isDragging}, drag, preview] = useDrag({
+        item: {type: DragTypes.LIST_ITEM, item: props.item, props: props, oldActivity: props.activity},
         collect: monitor => ({
             isDragging: !!monitor.isDragging(),
         }),
     })
+    useEffect(() => {
+        preview(getEmptyImage(), { captureDraggingState: true });
+    }, [true, preview]);
     const [{ isOverBefore }, dropBefore] = useDrop({
         accept: DragTypes.LIST_ITEM,
         drop: (item) => wasDropped(item ,props.activity, props.item.order - 1),
@@ -55,7 +61,7 @@ function ListItemDnd(props) {
                     opacity: isOverBefore ? 1 : 0,
                 }
             }/>
-            <List.Item>
+            <StyledItem>
                 <List.Item.Meta
                     title={props.item.name}
                     description={props.description ?
@@ -64,7 +70,7 @@ function ListItemDnd(props) {
                     </span>
                         : null}
                 />
-            </List.Item>
+            </StyledItem>
             {props.last
                 ?
                 <div

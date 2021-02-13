@@ -4,17 +4,22 @@ import * as React from "react";
 import {useDrag, useDrop} from "react-dnd";
 import {DragTypes} from "../constants";
 import {colors} from "../../../styles/colors";
-import {useRef} from "react";
+import {useEffect, useRef} from "react";
 import {connect} from "react-redux";
 import {moveActivityRequest} from "../../../store/modules/projects/action";
+import {getEmptyImage} from "react-dnd-html5-backend";
 
 function CardDnd(props){
-    const [{isDragging}, drag] = useDrag({
+    const [{isDragging}, drag, preview] = useDrag({
         item: {type: DragTypes.LIST, activity: props.activity},
         collect: monitor => ({
             isDragging: !!monitor.isDragging(),
         }),
     })
+    useEffect(() => {
+            preview(getEmptyImage(), { captureDraggingState: true });
+    }, [true, preview]);
+
     function wasDropped(item, x){
         const {dispatch} = props
         dispatch(moveActivityRequest(item.activity, x))
