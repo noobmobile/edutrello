@@ -44,3 +44,29 @@ export function moveActivitySuccess(activity, to){
         to,
     }
 }
+export function createTaskRequest(activity, title){
+    return {
+        type: "CREATE_TASK_REQUEST",
+        activity,
+        title,
+    }
+}
+export function createTaskSuccess(activity, task){
+    return {
+        type: "CREATE_TASK_SUCCESS",
+        activity,
+        task,
+    }
+}
+export function createListRequest(title){
+    return {
+        type: "CREATE_LIST_REQUEST",
+        title,
+    }
+}
+export function createListSuccess(list){
+    return {
+        type: "CREATE_LIST_SUCCESS",
+        list,
+    }
+}

@@ -1,5 +1,5 @@
-import {all, put, takeLatest} from "@redux-saga/core/effects";
-import {getProjectSuccess, moveActivitySuccess, moveTaskSuccess} from "./action";
+import {all, put, select, takeLatest} from "@redux-saga/core/effects";
+import {createListSuccess, createTaskSuccess, getProjectSuccess, moveActivitySuccess, moveTaskSuccess} from "./action";
 
 function* getProjectRequest({id}){
     const preproject = {
@@ -75,22 +75,6 @@ function* getProjectRequest({id}){
                         },
                     }
                 ]
-            },
-            {
-                name: "ACTIVITY 4",
-                order: 4,
-                id: 4,
-                tasks:[],
-            },{
-                name: "ACTIVITY 6",
-                order: 6,
-                id: 6,
-                tasks:[],
-            },{
-                name: "ACTIVITY 5",
-                order: 5,
-                id: 5,
-                tasks:[],
             },
             {
                 name: "ACTIVITY 3",
@@ -190,10 +174,37 @@ function* getProjectRequest({id}){
 }
 
 function* moveTaskRequest({task, from, to, y}){
+    // TODO: POST TO API
     yield put(moveTaskSuccess(task, from.id, to.id, y))
 }
 function* moveActivityRequest({activity, to}){
+    // TODO: POST TO API
     yield put(moveActivitySuccess(activity.id, to))
+}
+function* createTaskRequest({activity, title}){
+    // TODO: POST TO API
+    const task = { // TODO: RESPONSE FROM API
+        name: title,
+        order: (activity.tasks ? activity.tasks : []).length + 1,
+        creator: { // CURRENT USER
+            id: 1,
+            name: "user 1"
+        },
+    }
+    yield put(createTaskSuccess(activity.id, task))
+}
+
+function* createListRequest({title}){
+    // TODO: POST TO API
+    const project = yield select(state => state.projects.project)
+    const list = { // TODO: RESPONSE FROM API
+        name: title,
+        order: project.activities.length + 1,
+        tasks: [],
+        id: project.activities.length + 1,
+    }
+    yield put(createListSuccess(list))
+
 }
 
 export default all(
@@ -201,5 +212,7 @@ export default all(
         takeLatest("GET_PROJECT_REQUEST", getProjectRequest),
         takeLatest("MOVE_TASK_REQUEST", moveTaskRequest),
         takeLatest("MOVE_ACTIVITY_REQUEST", moveActivityRequest),
+        takeLatest("CREATE_TASK_REQUEST", createTaskRequest),
+        takeLatest("CREATE_LIST_REQUEST", createListRequest),
     ]
 )

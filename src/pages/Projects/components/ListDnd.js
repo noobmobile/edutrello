@@ -39,7 +39,7 @@ function ListDnd(props){
                 renderItem={item => {
                     let description = null
                     let all = false
-                    if (item.checklist) {
+                    if (item.checklist && item.checklist.length !== 0) {
                         description = item.checklist.filter(c => c.done).length + "/" + item.checklist.length
                         all = item.checklist.filter(c => c.done).length === item.checklist.length
                     }

@@ -28,6 +28,15 @@ export default function test(state = {}, action){
 
                 activity.order = action.to
             })
+        case "CREATE_TASK_SUCCESS":
+            return produce(state, draft => {
+                const activity = draft.project.activities.find(a => a.id === action.activity)
+                activity.tasks.push(action.task)
+            })
+        case "CREATE_LIST_SUCCESS":
+            return produce(state, draft => {
+                draft.project.activities.push(action.list)
+            })
         default:
             return state
     }

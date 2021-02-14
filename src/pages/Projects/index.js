@@ -7,7 +7,7 @@ import {HTML5Backend} from "react-dnd-html5-backend";
 import {getProjectRequest} from "../../store/modules/projects/action";
 import CardDnd from "./components/CardDnd";
 import CustomDragLayer from "./components/CustomDragLayer";
-
+import CreateListButton from "./components/CreateListButton";
 class Project extends React.Component {
 
     componentDidMount(){
@@ -31,7 +31,7 @@ class Project extends React.Component {
             )
     }
 
-    buildEmptyCards() {
+    buildLoadingCards() {
         return [1, 2, 3, 4]
             .map(a => {
                     return (
@@ -51,7 +51,11 @@ class Project extends React.Component {
                     <CustomDragLayer/>
                     {this.props.project
                         ? this.buildCards(this.props.project)
-                        : this.buildEmptyCards()
+                        : this.buildLoadingCards()
+                    }
+                    {this.props.project
+                        ? <CreateListButton/>
+                        : null
                     }
                 </DndProvider>
             </Container>

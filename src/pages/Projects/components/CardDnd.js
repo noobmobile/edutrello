@@ -3,12 +3,15 @@ import {StyledCard} from "../style";
 import * as React from "react";
 import {useDrag, useDrop} from "react-dnd";
 import {DragTypes} from "../constants";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {connect} from "react-redux";
-import {moveActivityRequest} from "../../../store/modules/projects/action";
+import {createTaskRequest, moveActivityRequest} from "../../../store/modules/projects/action";
 import {getEmptyImage} from "react-dnd-html5-backend";
+import {Button, Input} from "antd";
+import {PlusOutlined} from "@ant-design/icons";
 
 function CardDnd(props){
+    const [text, setText] = useState('')
     const [{isDragging}, drag, preview] = useDrag({
         item: {type: DragTypes.LIST, activity: props.activity},
         collect: monitor => ({
@@ -37,6 +40,26 @@ function CardDnd(props){
             isOverAfter: !!monitor.isOver() ,
         })
     })
+    const createTask = function (e, activity) {
+        const title = text
+        if (!title) return
+        setText('')
+        const {dispatch} = props
+        dispatch(createTaskRequest(activity, title))
+    }
+    const handleTextArea = (e) =>{
+        let lineCount = 0;
+        if (e.keyCode === 13) {
+            lineCount++;
+        }
+        if (lineCount >= 1) { // set here how may lines you want
+            e.preventDefault();
+            return false;
+        }
+    }
+    const handleTextChange = (e) =>{
+        setText(e.target.value)
+    }
     return (
         <div>
             <div
@@ -44,11 +67,10 @@ function CardDnd(props){
                 style={
                     {
                         height: '570px',
-                        width: isOverBefore ? '5px' : '5px',
-                        backgroundColor: '#006AA8',
+                        width: '5px',
                         marginRight: '5px',
                         borderRadius: '3px',
-                        opacity: isOverBefore ? 0 : 0,
+                        opacity: 0,
                     }
                 }/>
             <div
@@ -61,6 +83,12 @@ function CardDnd(props){
             >
                 <StyledCard bordered={false} title={props.activity.name}>
                     <ListDnd activity={props.activity}/>
+                    <Input.TextArea
+                        value={text}
+                        onKeyDown={handleTextArea}
+                        onChange={handleTextChange}
+                        onPressEnter={(args) => createTask(args, props.activity)}
+                        placeholder="Adicionar card"/>
                 </StyledCard>
             </div>
             {props.last ?
@@ -69,11 +97,10 @@ function CardDnd(props){
                     style={
                         {
                             height: '570px',
-                            width: isOverAfter ? '5px' : '5px',
-                            backgroundColor: '#006AA8',
+                            width: '5px',
                             marginLeft: '5px',
                             borderRadius: '3px',
-                            opacity: isOverAfter ? 0 : 0,
+                            opacity: 0,
                         }
                     }/>
                 : null}

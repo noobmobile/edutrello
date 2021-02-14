@@ -3,4 +3,5 @@ export const colors = {
     secondary: "#001529",
     text: "#dadce1",
     check: "#1fda1f",
+    card: '#EBECF0'
 }
