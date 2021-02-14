@@ -308,7 +308,6 @@ class Board extends React.Component {
                 gamb(c)
             },
             onCancel() {
-                console.log('Cancel');
             },
         })
     }
@@ -356,7 +355,6 @@ class Board extends React.Component {
                     gamb(team, values)
                 },
                 onCancel() {
-                    console.log('Cancel');
                 },
             })
         } else {

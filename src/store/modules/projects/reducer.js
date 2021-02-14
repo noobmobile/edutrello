@@ -19,6 +19,13 @@ export default function test(state = {}, action){
         case "MOVE_ACTIVITY_SUCCESS":
             return produce(state, draft => {
                 const activity = draft.project.activities.find(a => a.id === action.activity)
+
+                let before = draft.project.activities.find(a => a.order === action.to)
+                while (before) {
+                    before.order--
+                    before = draft.project.activities.find(a => a.order === before.order && a !== before)
+                }
+
                 activity.order = action.to
             })
         default:

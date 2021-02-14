@@ -1,14 +1,11 @@
 import * as React from "react";
 import {Container, StyledCard} from "./style";
-import {withRouter} from "react-router";
+import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import {getProjectRequest} from "../../store/modules/projects/action";
-import ListDnd from "./components/ListDnd";
-import {useEffect} from "react";
 import CardDnd from "./components/CardDnd";
-import ListItemDnd from "./components/ListItemDnd";
 import CustomDragLayer from "./components/CustomDragLayer";
 
 class Project extends React.Component {
@@ -17,19 +14,18 @@ class Project extends React.Component {
         const id = this.props.match.params.id
         const {dispatch} = this.props
         dispatch(getProjectRequest(id))
-        console.log('mount it!');
     }
 
     buildCards(project) {
         const activities = [...project.activities]
             .sort((a, b) => a.order - b.order)
         return activities
-            .map(a => {
+            .map((activity, index) => {
                     return (
                         <CardDnd
-                            last={activities.indexOf(a) === activities.length - 1}
-                            key={a.name}
-                            activity={a}/>
+                            last={index === activities.length - 1}
+                            key={activity.name}
+                            activity={activity}/>
                     );
                 }
             )

@@ -5,11 +5,14 @@ import {colors} from "../../styles/colors";
 
 export const Container = styled.div`
   padding: 20px 40px;
-  height: 1000px;
   background: linear-gradient(180deg, ${colors.secondary} 0%, ${colors.primary} 100%);
+  min-height: 150vh;
   > div {
     display: inline-flex;
   }
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
 `
 
 export const StyledCard = styled(Card)`

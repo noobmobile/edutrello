@@ -30,7 +30,6 @@ class Home extends React.Component{
             teams: teamsResponse.data,
             users: usersResponse.data,
         })
-        console.log(this.state.users)
     }
 
     render(){

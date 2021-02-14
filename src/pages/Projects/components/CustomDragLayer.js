@@ -4,8 +4,7 @@ import ListDnd from "./ListDnd";
 import {StyledCard} from "../style";
 import * as React from "react";
 import ListItemDnd from "./ListItemDnd";
-import {List} from "antd";
-import {CheckOutlined} from "@ant-design/icons";
+
 const layerStyles = {
     position: 'fixed',
     pointerEvents: 'none',
@@ -47,7 +46,6 @@ const CustomDragLayer = (props) => {
                     </div>
                 )
             case DragTypes.LIST_ITEM:
-                console.log(item)
                return (
                    <div style={styles}>
                        <ListItemDnd

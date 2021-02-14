@@ -3,8 +3,7 @@ import {StyledCard} from "../style";
 import * as React from "react";
 import {useDrag, useDrop} from "react-dnd";
 import {DragTypes} from "../constants";
-import {colors} from "../../../styles/colors";
-import {useEffect, useRef} from "react";
+import {useEffect} from "react";
 import {connect} from "react-redux";
 import {moveActivityRequest} from "../../../store/modules/projects/action";
 import {getEmptyImage} from "react-dnd-html5-backend";
@@ -26,14 +25,14 @@ function CardDnd(props){
     }
     const [{ isOverBefore }, dropBefore] = useDrop({
         accept: DragTypes.LIST,
-        drop: (item) => wasDropped(item, props.activity.order - 1),
+        hover: (item) => wasDropped(item, props.activity.order - 1),
         collect: (monitor) => ({
             isOverBefore: !!monitor.isOver() ,
         })
     })
     const [{ isOverAfter }, dropAfter] = useDrop({
         accept: DragTypes.LIST,
-        drop: (item) => wasDropped(item, props.activity.order + 1),
+        hover: (item) => wasDropped(item, props.activity.order + 1),
         collect: (monitor) => ({
             isOverAfter: !!monitor.isOver() ,
         })
@@ -44,19 +43,19 @@ function CardDnd(props){
                 ref={dropBefore}
                 style={
                     {
-                        height: '270px',
-                        width: isOverBefore ? '270px' : '5px',
+                        height: '570px',
+                        width: isOverBefore ? '5px' : '5px',
                         backgroundColor: '#006AA8',
                         marginRight: '5px',
                         borderRadius: '3px',
-                        opacity: isOverBefore ? 0.5 : 0,
+                        opacity: isOverBefore ? 0 : 0,
                     }
                 }/>
             <div
                 ref={drag}
                 style={
                     {
-                        opacity: isDragging ? 0.5 : 1,
+                        opacity: isDragging ? 0 : 1,
                     }
                 }
             >
@@ -69,12 +68,12 @@ function CardDnd(props){
                     ref={dropAfter}
                     style={
                         {
-                            height: '270px',
-                            width: isOverAfter ? '270px' : '5px',
+                            height: '570px',
+                            width: isOverAfter ? '5px' : '5px',
                             backgroundColor: '#006AA8',
                             marginLeft: '5px',
                             borderRadius: '3px',
-                            opacity: isOverAfter ? 0.5 : 0,
+                            opacity: isOverAfter ? 0 : 0,
                         }
                     }/>
                 : null}
