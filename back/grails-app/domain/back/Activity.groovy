@@ -7,20 +7,24 @@ class Activity {
     Date dateCreated
     Date deadline
     int position
-    static belongsTo = [creator: User, dueTo: User, activityList: ActivityList]
+    static hasMany = [responsibles: User]
+    static belongsTo = [creator: User, activityList: ActivityList]
 
     static constraints = {
         title()
         description(nullable: true)
         deadline(nullable: true)
         creator()
-        dueTo(nullable: true)
+        responsibles(nullable: true)
         activityList()
     }
 
     def beforeInsert = {
         if (!position){
             position = (activityList.activities.max({it.position})?.position ?: 0) + 1
+        }
+        if (!responsibles){
+            responsibles = []
         }
     }
 

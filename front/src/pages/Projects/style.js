@@ -58,6 +58,7 @@ export const StyledCard = styled(Card)`
 
   .ant-card-body {
     padding: 10px;
+    
   }
 
   .ant-list-item {
@@ -70,6 +71,7 @@ export const StyledItem = styled(List.Item)`
   height: 100%;
   border-radius: 3px;
   padding: 6px 8px;
+  white-space: normal;
   cursor: pointer;
   box-shadow: 0 1px 0 rgba(9,30,66,.25);
 `
