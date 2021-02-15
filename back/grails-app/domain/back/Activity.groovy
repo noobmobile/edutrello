@@ -7,7 +7,7 @@ class Activity {
     Date dateCreated
     Date deadline
     int position
-    static hasMany = [responsibles: User]
+    static hasMany = [responsibles: User, checklists: ChecklistItem]
     static belongsTo = [creator: User, activityList: ActivityList]
 
     static constraints = {
@@ -16,6 +16,7 @@ class Activity {
         deadline(nullable: true)
         creator()
         responsibles(nullable: true)
+        checklists(nullable: true)
         activityList()
     }
 
@@ -25,6 +26,9 @@ class Activity {
         }
         if (!responsibles){
             responsibles = []
+        }
+        if (!checklists){
+            checklists = []
         }
     }
 

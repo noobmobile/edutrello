@@ -51,6 +51,8 @@ class BootStrap {
                 jsonWriter.key("activityList").object().key("id").value(activity.activityList.id).endObject()
                 jsonWriter.key("responsibles")
                 converter.convertAnother(activity.responsibles)
+                jsonWriter.key("checklists")
+                converter.convertAnother(activity.checklists)
                 jsonWriter.endObject()
             }
         })
@@ -90,6 +92,24 @@ class BootStrap {
                 jsonWriter.key("team").object().key("id").value(project.team.id).endObject()
                 jsonWriter.key("tasks")
                 converter.convertAnother(project.tasks)
+                jsonWriter.endObject()
+            }
+        })
+        JSON.registerObjectMarshaller(new ObjectMarshaller<JSON>() {
+            @Override
+            boolean supports(Object object) {
+                return object instanceof ChecklistItem
+            }
+
+            @Override
+            void marshalObject(Object object, JSON converter) throws ConverterException {
+                def checklist = object as ChecklistItem
+                def jsonWriter = converter.writer
+                jsonWriter.object()
+                jsonWriter.key("title").value(checklist.title)
+                jsonWriter.key("id").value(checklist.id)
+                jsonWriter.key("done").value(checklist.done)
+                jsonWriter.key("activity").object().key("id").value(checklist.activity.id).endObject()
                 jsonWriter.endObject()
             }
         })
