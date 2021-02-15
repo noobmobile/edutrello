@@ -1,0 +1,7 @@
+import back.User
+
+model {
+    User user
+}
+println "b"
+json g.render(template: "user", model: [user: user])
