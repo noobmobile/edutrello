@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Container, StyledCard} from "./style";
+import {Container, StyledCard, StyledLoading} from "./style";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import {DndProvider} from "react-dnd";
@@ -32,11 +32,10 @@ class Project extends React.Component {
     }
 
     buildLoadingCards() {
-        return [1, 2, 3, 4]
+        return [1, 2, 3, 4, 5, 6]
             .map(a => {
                     return (
-                        <StyledCard
-                            style={{height: '150px'}}
+                        <StyledLoading
                             loading={true}
                             key={a}
                             bordered={false}/>

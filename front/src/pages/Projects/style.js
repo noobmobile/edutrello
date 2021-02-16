@@ -58,7 +58,6 @@ export const StyledCard = styled(Card)`
 
   .ant-card-body {
     padding: 10px;
-    
   }
 
   .ant-list-item {
@@ -81,7 +80,6 @@ export const StyledButton = styled(Button)`
   height: 100%;
   border: 0;
   background-color: ${colors.card};
-  opacity: 0.75;
   text-align: left;
   float: top;
   &:hover {
@@ -110,5 +108,14 @@ export const StyledForm = styled(Form)`
   }
   Button {
     margin: 5px;
+  }
+`
+
+export const StyledLoading = styled(Card)`
+  margin-right: 10px;
+  display: inline-grid;
+  width: 270px;
+  .ant-card-body {
+    width: 100%;
   }
 `
