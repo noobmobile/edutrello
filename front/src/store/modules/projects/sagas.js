@@ -1,5 +1,13 @@
 import {all, call, put, select, takeLatest} from "@redux-saga/core/effects";
-import {createListSuccess, createTaskSuccess, getProjectSuccess, moveActivitySuccess, moveTaskSuccess} from "./action";
+import {
+    changeListNameSuccess,
+    createListSuccess,
+    createTaskSuccess,
+    deleteListSuccess,
+    getProjectSuccess,
+    moveActivitySuccess,
+    moveTaskSuccess
+} from "./action";
 import api from "../../../services/api";
 import {toast} from "react-toastify";
 import {currentUser} from "../../../utils/utils";
@@ -83,6 +91,27 @@ function* createListRequest({title}){
 
 }
 
+function* deleteListRequest({activity}){
+    try {
+        const response = yield call(api.delete, "/activityList/delete/"+activity.id)
+        yield put(deleteListSuccess(activity.id))
+    } catch (error){
+        toast.error("Não foi possível deletar a lista.")
+    }
+}
+function* changeListNameRequest({activity, name}){
+    try {
+        if (name === activity.name) return
+        const toSend = {
+            name: name
+        }
+        const response = yield call(api.put, "/activityList/update/" + activity.id, toSend)
+        yield put(changeListNameSuccess(activity.id, name))
+    } catch (error){
+        toast.error("Não foi possível renomear a lista.")
+    }
+}
+
 export default all(
     [
         takeLatest("GET_PROJECT_REQUEST", getProjectRequest),
@@ -90,5 +119,7 @@ export default all(
         takeLatest("MOVE_ACTIVITY_REQUEST", moveActivityRequest),
         takeLatest("CREATE_TASK_REQUEST", createTaskRequest),
         takeLatest("CREATE_LIST_REQUEST", createListRequest),
+        takeLatest("DELETE_LIST_REQUEST", deleteListRequest),
+        takeLatest("CHANGE_LIST_NAME_REQUEST", changeListNameRequest),
     ]
 )

@@ -149,7 +149,9 @@ class Board extends React.Component {
     };
 
     renderProject(c) {
-        return c.projects.map(p => {
+        return c.projects
+            .sort((a, b) => b.tasks.length - a.tasks.length)
+            .map(p => {
             if (!p.color) p.color = getRandomColor()
             return (
                 <Col key={p.id} span={6}>
@@ -315,22 +317,26 @@ class Board extends React.Component {
     }
 
     getUsers = (members, all) => {
+        const users = all ? this.props.users : members
         return (
-            members
-                .map(u => (
-                <Select.Option value={u.name} key={u.id}>
-                    <Avatar size={18} style={
-                        {
-                            marginRight: "5px",
-                            marginBottom: '3px',
-                            backgroundColor: getRandomColor(),
-                        }
-                    } >
-                        {getAbbreviation(u.name)}
-                    </Avatar>
-                    {u.name}
-                </Select.Option>
-            )))
+                [...users]
+                    .sort((a, b) => members.includes(a) - members.includes(b))
+                    .map(u => {
+                        return (
+                            <Select.Option value={u.name} key={u.id}>
+                                <Avatar size={18} style={
+                                    {
+                                        marginRight: "5px",
+                                        marginBottom: '3px',
+                                        backgroundColor: getRandomColor(),
+                                    }
+                                }>
+                                    {getAbbreviation(u.name)}
+                                </Avatar>
+                                {u.name}
+                            </Select.Option>
+                        );
+                    }))
     };
 
     editTeam = async (team, values) => {
@@ -345,8 +351,8 @@ class Board extends React.Component {
         const gamb = this.editTeam
         values = {
             name: values.name,
-            members: values.members.map(m => team.members.find(m2 => m2.name === m).id),
-            leader: team.members.find(m => m.name === values.leader).id
+            members: values.members.map(m => this.props.users.find(m2 => m2.name === m).id),
+            leader: this.props.users.find(m => m.name === values.leader).id
         }
         if (values.leader != currentUser){
             Modal.confirm({

@@ -72,3 +72,32 @@ export function createListSuccess(list){
         list,
     }
 }
+
+export function deleteListRequest(activity){
+    return {
+        type: "DELETE_LIST_REQUEST",
+        activity,
+    }
+}
+
+export function deleteListSuccess(activity){
+    return {
+        type: "DELETE_LIST_SUCCESS",
+        activity,
+    }
+}
+export function changeListNameRequest(activity, name){
+    return {
+        type: "CHANGE_LIST_NAME_REQUEST",
+        activity,
+        name,
+    }
+}
+
+export function changeListNameSuccess(activity, name){
+    return {
+        type: "CHANGE_LIST_NAME_SUCCESS",
+        activity,
+        name,
+    }
+}

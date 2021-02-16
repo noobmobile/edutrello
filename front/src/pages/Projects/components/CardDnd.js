@@ -5,10 +5,16 @@ import {useDrag, useDrop} from "react-dnd";
 import {DragTypes} from "../constants";
 import {useEffect, useState} from "react";
 import {connect} from "react-redux";
-import {createTaskRequest, moveActivityRequest} from "../../../store/modules/projects/action";
+import {
+    changeListNameRequest,
+    createTaskRequest,
+    deleteListRequest,
+    moveActivityRequest
+} from "../../../store/modules/projects/action";
 import {getEmptyImage} from "react-dnd-html5-backend";
-import {Button, Input} from "antd";
-import {PlusOutlined} from "@ant-design/icons";
+import {Button, Input, Modal} from "antd";
+import {ExclamationCircleOutlined, PlusOutlined} from "@ant-design/icons";
+import {IoTrashOutline} from "react-icons/all";
 
 function CardDnd(props){
     const [text, setText] = useState('')
@@ -63,6 +69,30 @@ function CardDnd(props){
     const handleTextChange = (e) =>{
         setText(e.target.value)
     }
+
+    const deleteActivity = (activity) => {
+        const {dispatch} = props
+        dispatch(deleteListRequest(activity))
+    }
+
+    const askDelete = (activity) => (
+        Modal.confirm({
+            title: "Você tem certeza?",
+            icon: <ExclamationCircleOutlined />,
+            content: "Você quer deletar a lista " + activity.name + "?",
+            onOk() {
+                deleteActivity(activity)
+            },
+            onCancel() {
+            },
+        })
+    )
+
+    const changeListName = (activity, name) => {
+        const {dispatch} = props
+        dispatch(changeListNameRequest(activity, name))
+    }
+
     return (
         <div>
             <div
@@ -84,7 +114,17 @@ function CardDnd(props){
                     }
                 }
             >
-                <StyledCard bordered={false} title={props.activity.name}>
+                <StyledCard bordered={false} title={
+                    <div>
+                        <Input
+                            onPressEnter={(e) => changeListName(props.activity, e.target.value)}
+                            onBlur={(e) => changeListName(props.activity, e.target.value)}
+                            defaultValue={props.activity.name}/>
+                        <Button onClick={() => askDelete(props.activity)}>
+                            <IoTrashOutline/>
+                        </Button>
+                    </div>
+                }>
                     <ListDnd activity={props.activity}/>
                     <Input.TextArea
                         value={text}

@@ -37,6 +37,17 @@ export default function test(state = {}, action){
             return produce(state, draft => {
                 draft.project.tasks.push(action.list)
             })
+        case "DELETE_LIST_SUCCESS":
+            return produce(state, draft => {
+                const activity = draft.project.tasks.find(a => a.id === action.activity)
+                const index = draft.project.tasks.indexOf(activity)
+                draft.project.tasks.splice(index, 1)
+            })
+        case "CHANGE_LIST_NAME_SUCCESS":
+            return produce(state, draft => {
+                const activity = draft.project.tasks.find(a => a.id === action.activity)
+                activity.name = action.name
+            })
         default:
             return state
     }

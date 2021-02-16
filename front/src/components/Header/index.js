@@ -35,7 +35,7 @@ class Header extends React.Component {
                     <StyledSubMenu style=
                                        {
                                            {
-                                               margin: "0 30px 5px 0"
+                                               margin: "-2px 30px 5px 0"
                                            }
                                        } key="5" icon={<Avatar>LE</Avatar>}>
                         <StyledGroup title="Conta">

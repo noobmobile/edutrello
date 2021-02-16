@@ -21,7 +21,7 @@ export const StyledCard = styled(Card)`
   width: 270px;
   border-radius: 3px;
   background-color: ${colors.card};
-
+  
   TextArea {
     width: 100%;
     height: 30px;
@@ -48,12 +48,29 @@ export const StyledCard = styled(Card)`
     height: 100%;
     min-height: unset;
     padding: 3px;
+    border-bottom: 0;
   }
 
   .ant-card-head-title {
-    font-weight: bold;
-    padding: 10px;
+    padding: 10px 10px 2px 10px;
     font-size: 15px;
+  }
+
+  .ant-card-head-title Input {
+    background-color: inherit;
+    border: 0;
+    padding: 3px;
+    width: 95%;
+    font-weight: bold;
+    &:focus {
+      background-color: white;
+    }
+    transition: all .3s;
+  }
+  .ant-card-head-title Button {
+    background-color: inherit;
+    border: 0;
+    padding: 3px;
   }
 
   .ant-card-body {
