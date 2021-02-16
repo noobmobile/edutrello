@@ -48,6 +48,19 @@ export default function test(state = {}, action){
                 const activity = draft.project.tasks.find(a => a.id === action.activity)
                 activity.name = action.name
             })
+        case "CHANGE_TASK_DESCRIPTION_SUCCESS":
+            return produce(state, draft => {
+                const activity = draft.project.tasks.find(a => a.id === action.activity)
+                const task =  activity.activities.find(a => a.id === action.task)
+                task.description = action.description
+            })
+        case "CHANGE_CHECK_SUCCESS":
+            return produce(state, draft => {
+                const activity = draft.project.tasks.find(a => a.id === action.activity)
+                const task =  activity.activities.find(a => a.id === action.task)
+                const check = task.checklists.find(a => a.id === action.check)
+                check.done = action.value
+            })
         default:
             return state
     }

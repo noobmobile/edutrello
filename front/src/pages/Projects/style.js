@@ -1,6 +1,6 @@
 import 'antd/dist/antd.css';
 import styled from "styled-components";
-import {Button, Card, Form, List} from "antd";
+import {Button, Card, Form, Input, List} from "antd";
 import {colors} from "../../styles/colors";
 import {darken, lighten} from "polished";
 export const Container = styled.div`
@@ -134,5 +134,23 @@ export const StyledLoading = styled(Card)`
   width: 270px;
   .ant-card-body {
     width: 100%;
+  }
+`
+
+export const StyledTextArea = styled(Input.TextArea)`
+  min-height: 50px;
+  overflow: hidden;
+  background-color: ${darken(0.03, '#fff')};
+  border: 0;
+  resize: none;
+  &:hover {
+    background-color: ${darken(0.05, '#fff')};
+  }
+`
+export const StyledCheckList = styled.div`
+  display: block;
+  margin-top: 5px;
+  &:hover {
+    background-color: ${darken(0.05, '#fff')};
   }
 `

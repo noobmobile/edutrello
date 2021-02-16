@@ -1,15 +1,17 @@
-import {List} from "antd";
-import {CheckOutlined} from "@ant-design/icons";
+import {List, Modal} from "antd";
+import {CheckOutlined, FileOutlined} from "@ant-design/icons";
 import * as React from "react";
 import {useDrag, useDrop} from "react-dnd";
 import {DragTypes} from "../constants";
 import {moveTaskRequest} from "../../../store/modules/projects/action";
 import {connect} from "react-redux";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {getEmptyImage} from "react-dnd-html5-backend";
 import {StyledItem} from "../style";
+import ListItemModal from "./ListItemModal";
 
 function ListItemDnd(props) {
+    const [visibleModal, setVisibleModal] = useState(null)
     function wasDropped(drop, activity, y) {
         const old = drop.oldActivity
         const item = drop.item
@@ -40,6 +42,30 @@ function ListItemDnd(props) {
             isOverAfter: !!monitor.isOver()
         })
     })
+    const createListItemModal = (activity) => (
+        <Modal
+            key={activity.id}
+            visible={visibleModal === activity.id}
+            onCancel={() => setVisibleModal(null)}
+            footer={null}
+            title={
+                <div style={{display: 'flex', alignItems: 'end'}}>
+                    <FileOutlined style={{fontSize: '20px', marginRight: '5px'}}/>
+                    <div>
+                       <span style={{fontSize: '18px'}}>
+                        {activity.title}
+                    </span>
+                        <small style={{display: 'block', opacity: '0.80'}}>
+                            Na lista <span style={{fontStyle: 'italic'}}>{activity.activityList.name}</span>
+                        </small>
+                    </div>
+
+                </div>
+            }
+        >
+            <ListItemModal activity={activity}/>
+        </Modal>
+    )
     return (
         <div
             ref={drag}
@@ -61,14 +87,11 @@ function ListItemDnd(props) {
                     opacity: isOverBefore ? 1 : 0,
                 }
             }/>
-            <StyledItem>
+            {createListItemModal(props.item)}
+            <StyledItem onClick={() => setVisibleModal(props.item.id)}>
                 <List.Item.Meta
                     title={props.item.title}
-                    description={props.description ?
-                        <span style={props.style}>
-                        <CheckOutlined style={{marginRight: '5px'}}/>{props.description}
-                    </span>
-                        : null}
+                    description={props.description}
                 />
             </StyledItem>
             {props.last

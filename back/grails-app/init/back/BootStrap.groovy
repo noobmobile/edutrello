@@ -48,7 +48,7 @@ class BootStrap {
                 jsonWriter.key("id").value(activity.id)
                 jsonWriter.key("position").value(activity.position)
                 jsonWriter.key("creator").object().key("id").value(activity.creator.id).endObject()
-                jsonWriter.key("activityList").object().key("id").value(activity.activityList.id).endObject()
+                jsonWriter.key("activityList").object().key("id").value(activity.activityList.id).key("name").value(activity.activityList.name).endObject()
                 jsonWriter.key("responsibles")
                 converter.convertAnother(activity.responsibles)
                 jsonWriter.key("checklists")

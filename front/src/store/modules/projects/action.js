@@ -101,3 +101,36 @@ export function changeListNameSuccess(activity, name){
         name,
     }
 }
+export function changeTaskDescriptionRequest(task, description){
+    return {
+        type: "CHANGE_TASK_DESCRIPTION_REQUEST",
+        task,
+        description,
+    }
+}
+export function changeTaskDescriptionSuccess(task, description, activity){
+    return {
+        type: "CHANGE_TASK_DESCRIPTION_SUCCESS",
+        task,
+        activity,
+        description,
+    }
+}
+
+export function changeCheckRequest(check, task, value){
+    return {
+        type: "CHANGE_CHECK_REQUEST",
+        check,
+        task,
+        value,
+    }
+}
+export function changeCheckSuccess(check, task, activity, value){
+    return {
+        type: "CHANGE_CHECK_SUCCESS",
+        check,
+        task,
+        activity,
+        value,
+    }
+}

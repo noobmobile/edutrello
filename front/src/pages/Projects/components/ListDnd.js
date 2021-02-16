@@ -6,14 +6,9 @@ import {useDrop} from "react-dnd";
 import {DragTypes} from "../constants";
 import {moveTaskRequest} from "../../../store/modules/projects/action";
 import {connect} from "react-redux";
+import {AlignLeftOutlined, CheckOutlined, ClockCircleOutlined, CommentOutlined} from "@ant-design/icons";
 
-const style = {
-    backgroundColor: colors.check,
-    color: 'white',
-    borderRadius: '5px',
-    padding: '3px 8px',
-}
-function ListDnd(props){
+function ListDnd(props) {
     function wasDropped(drop, activity) {
         const old = drop.oldActivity
         const item = drop.item
@@ -22,9 +17,9 @@ function ListDnd(props){
         dispatch(moveTaskRequest(item, old, newActivity, 0))
     }
 
-    const [{ isOver }, drop] = useDrop({
+    const [{isOver}, drop] = useDrop({
         accept: DragTypes.LIST_ITEM,
-        drop: (item) => wasDropped(item ,props.activity),
+        drop: (item) => wasDropped(item, props.activity),
         collect: (monitor) => ({
             isOver: !!monitor.isOver()
         })
@@ -37,19 +32,40 @@ function ListDnd(props){
                 itemLayout="horizontal"
                 dataSource={tasks}
                 renderItem={item => {
-                    let description = null
-                    let all = false
-                    if (item.checklists && item.checklists.length !== 0) {
-                        description = item.checklists.filter(c => c.done).length + "/" + item.checklists.length
-                        all = item.checklists.filter(c => c.done).length === item.checklists.length
-                    }
+                    const description =
+                        <div>
+                            <div style={{display: 'flex', paddingLeft: '3px'}}>
+                                {item.checklists.length !== 0
+                                    ? (
+                                        <div style={{paddingRight: '4px'}}>
+                                        <span style={item.checklists.every(c => c.done) ? {
+                                            backgroundColor: colors.check,
+                                            color: 'white',
+                                            borderRadius: '5px',
+                                            padding: '3px 8px',
+                                        } : {}}>
+                                            <CheckOutlined
+                                                style={{marginRight: '5px'}}/>{item.checklists.filter(c => c.done).length + "/" + item.checklists.length}
+                                        </span>
+                                        </div>
+                                    ) : null
+                                }
+                                {item.description
+                                    ? (
+                                        <div style={{paddingRight: '4px'}}>
+                                            <CommentOutlined style={{fontSize: '16px'}}/>
+                                        </div>
+                                    )
+                                    : null}
+                            </div>
+                        </div>
+
                     return (
                         <ListItemDnd
                             last={tasks.indexOf(item) === tasks.length - 1}
                             item={item}
                             activity={props.activity}
                             description={description}
-                            style={all ? style : {}}
                         />
                     );
                 }}
@@ -59,6 +75,5 @@ function ListDnd(props){
 
     )
 }
-
 
 export default connect()(ListDnd)

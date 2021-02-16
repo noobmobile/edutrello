@@ -1,6 +1,7 @@
 import {all, call, put, select, takeLatest} from "@redux-saga/core/effects";
 import {
-    changeListNameSuccess,
+    changeCheckSuccess,
+    changeListNameSuccess, changeTaskDescriptionSuccess,
     createListSuccess,
     createTaskSuccess,
     deleteListSuccess,
@@ -112,6 +113,31 @@ function* changeListNameRequest({activity, name}){
     }
 }
 
+function* changeTaskDescriptionRequest({task, description}){
+    try {
+        if (task.description === description) return
+        const toSend = {
+            description: description
+        }
+        const response = yield call(api.put, "/activity/update/" + task.id, toSend)
+        yield put(changeTaskDescriptionSuccess(task.id, description, task.activityList.id))
+    } catch (error){
+        toast.error("Não foi possível renomear a descrição da tarefa.")
+    }
+}
+
+function* changeCheckRequest({check, task, value}){
+    try {
+        const toSend = {
+            done: value
+        }
+        const response = yield call(api.put, "/checklistitem/update/" + check.id, toSend)
+        yield put(changeCheckSuccess(check.id, task.id, task.activityList.id, value))
+    } catch (error){
+        toast.error("Não foi possível marcar a tarefa como concluido.")
+    }
+}
+
 export default all(
     [
         takeLatest("GET_PROJECT_REQUEST", getProjectRequest),
@@ -121,5 +147,7 @@ export default all(
         takeLatest("CREATE_LIST_REQUEST", createListRequest),
         takeLatest("DELETE_LIST_REQUEST", deleteListRequest),
         takeLatest("CHANGE_LIST_NAME_REQUEST", changeListNameRequest),
+        takeLatest("CHANGE_TASK_DESCRIPTION_REQUEST", changeTaskDescriptionRequest),
+        takeLatest("CHANGE_CHECK_REQUEST", changeCheckRequest),
     ]
 )
