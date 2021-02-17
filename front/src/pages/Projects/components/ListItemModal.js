@@ -16,7 +16,7 @@ import {
     createCheckRequest, removeResponsibleRequest
 } from "../../../store/modules/projects/action";
 import {connect} from "react-redux";
-import {getAbbreviation, getRandomColor, renderAvatar} from "../../../utils/utils";
+import {getAbbreviation} from "../../../utils/utils";
 import Avatar from "antd/lib/avatar/avatar";
 import {IoTrashOutline} from "react-icons/all";
 
@@ -148,7 +148,7 @@ class ListItemModal extends React.Component {
                         }
                     >
                         <Avatar
-                            style={{backgroundColor: getRandomColor(), margin: '2px'}}
+                            style={{backgroundColor: member.color, margin: '2px'}}
                         >
                             {getAbbreviation(member.name)}
                         </Avatar>
@@ -168,7 +168,7 @@ class ListItemModal extends React.Component {
                                 {
                                     marginRight: "5px",
                                     marginBottom: '3px',
-                                    backgroundColor: getRandomColor(),
+                                    backgroundColor: u.color,
                                 }
                             }>
                                 {getAbbreviation(u.name)}

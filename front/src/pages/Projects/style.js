@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {Avatar, Button, Card, Form, Input, List, Select} from "antd";
 import {colors} from "../../styles/colors";
 import {darken, lighten} from "polished";
-import {getRandomColor} from "../../utils/utils";
+
 export const Container = styled.div`
   padding: 20px 40px;
   background: linear-gradient(180deg, ${colors.secondary} 0%, ${colors.primary} 100%);

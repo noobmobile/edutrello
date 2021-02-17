@@ -26,3 +26,6 @@ export const defaultRule = [
         message: "Preencha todos campos",
     }
 ]
+
+export class renderAvatar {
+}

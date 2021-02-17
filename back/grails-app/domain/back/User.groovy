@@ -5,6 +5,7 @@ class User {
     String login
     String name
     String password
+    String color
     //static hasMany = [teams: Team]
 
     static constraints = {
@@ -16,7 +17,11 @@ class User {
 
     def beforeInsert = {
         password = password.encodeAsMD5()
+        if (!color){
+            color = Utils.getRandomColor()
+        }
     }
+
 
 
 }

@@ -12,7 +12,7 @@ import {
 } from "./action";
 import api from "../../../services/api";
 import {toast} from "react-toastify";
-import {currentUser, getRandomColor} from "../../../utils/utils";
+import {currentUser} from "../../../utils/utils";
 
 function* getProjectRequest({id}){
     const response = yield call(api.get, "/project/show/" + id)

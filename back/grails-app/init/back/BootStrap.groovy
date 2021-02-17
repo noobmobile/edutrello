@@ -25,6 +25,9 @@ class BootStrap {
                 jsonWriter.key("name")
                 jsonWriter.value(user.name)
 
+                jsonWriter.key("color")
+                jsonWriter.value(user.color)
+
                 //other creator fields
                 jsonWriter.endObject()
             }

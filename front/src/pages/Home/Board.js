@@ -127,7 +127,7 @@ class Board extends React.Component {
         return (
             <Tooltip key={member.id} title={member.name}>
                 <Avatar
-                    style={{backgroundColor: getRandomColor(), margin: '2px'}}
+                    style={{backgroundColor: member.color, margin: '2px'}}
                 >
                     {getAbbreviation(member.name)}
                 </Avatar>
@@ -215,6 +215,7 @@ class Board extends React.Component {
             visible={this.state.visibleModal === c.id}
             onCancel={() => this.setState({visibleModal: null})}
             title={c.name}
+            key={c.id}
             footer={[
                 <div>
                     <Button
@@ -330,7 +331,7 @@ class Board extends React.Component {
                                     {
                                         marginRight: "5px",
                                         marginBottom: '3px',
-                                        backgroundColor: getRandomColor(),
+                                        backgroundColor: u.color,
                                     }
                                 }>
                                     {getAbbreviation(u.name)}
