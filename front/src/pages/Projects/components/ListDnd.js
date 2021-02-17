@@ -1,12 +1,12 @@
 import ListItemDnd from "./ListItemDnd";
-import {List} from "antd";
+import {List, Tooltip} from "antd";
 import * as React from "react";
 import {colors} from "../../../styles/colors";
 import {useDrop} from "react-dnd";
 import {DragTypes} from "../constants";
 import {moveTaskRequest} from "../../../store/modules/projects/action";
 import {connect} from "react-redux";
-import {AlignLeftOutlined, CheckOutlined, ClockCircleOutlined, CommentOutlined} from "@ant-design/icons";
+import {AlignLeftOutlined, CheckOutlined, ClockCircleOutlined, CommentOutlined, TeamOutlined} from "@ant-design/icons";
 
 function ListDnd(props) {
     function wasDropped(drop, activity) {
@@ -54,6 +54,17 @@ function ListDnd(props) {
                                     ? (
                                         <div style={{paddingRight: '4px'}}>
                                             <CommentOutlined style={{fontSize: '16px'}}/>
+                                        </div>
+                                    )
+                                    : null}
+                                    {item.responsibles.length !== 0
+                                    ? (
+                                        <div style={{paddingRight: '4px'}}>
+                                            <Tooltip
+                                                title={"Responsáveis: " + item.responsibles.map(r => r.name).join(", ")}
+                                            >
+                                                <TeamOutlined style={{fontSize: '16px'}}/>
+                                            </Tooltip>
                                         </div>
                                     )
                                     : null}

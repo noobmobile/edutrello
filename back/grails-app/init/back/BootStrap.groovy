@@ -92,6 +92,8 @@ class BootStrap {
                 jsonWriter.key("team").object().key("id").value(project.team.id).endObject()
                 jsonWriter.key("tasks")
                 converter.convertAnother(project.tasks)
+                jsonWriter.key("members")
+                converter.convertAnother(project.team.members)
                 jsonWriter.endObject()
             }
         })

@@ -1,8 +1,9 @@
 import 'antd/dist/antd.css';
 import styled from "styled-components";
-import {Button, Card, Form, Input, List} from "antd";
+import {Avatar, Button, Card, Form, Input, List, Select} from "antd";
 import {colors} from "../../styles/colors";
 import {darken, lighten} from "polished";
+import {getRandomColor} from "../../utils/utils";
 export const Container = styled.div`
   padding: 20px 40px;
   background: linear-gradient(180deg, ${colors.secondary} 0%, ${colors.primary} 100%);
@@ -152,5 +153,39 @@ export const StyledCheckList = styled.div`
   margin-top: 5px;
   &:hover {
     background-color: ${darken(0.05, '#fff')};
+  }
+`
+export const StyledInput = styled(Input)`
+  background-color: ${darken(0.05, '#fff')};
+  border: 0;
+`
+
+export const StyledSelect = styled(Select)`
+  border: 0;
+  width: 100%;
+  background-color: ${darken(0.05, '#fff')};
+
+`
+
+
+export const StyledPlusButton = styled(Button)`
+  background-color: inherit;
+  border: 0;
+  padding: 0;
+  margin-left: 3px;
+  opacity: .6;
+  float: right;
+`
+
+export const StyledDeleteButton = styled(Button)`
+  background-color: inherit;
+  border: 0;
+  padding: 0;
+  color: #fff;
+  &:hover {
+    background-color: inherit;
+  }
+  &:focus {
+    background-color: inherit;
   }
 `

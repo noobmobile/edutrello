@@ -1,3 +1,7 @@
+import {Tooltip} from "antd";
+import Avatar from "antd/lib/avatar/avatar";
+import * as React from "react";
+
 export function getAbbreviation(name){
     if (name.includes(" ")){
         return name.split(" ")[0][0] + name.split(" ")[1][0] // Luiz Eduardo = LE

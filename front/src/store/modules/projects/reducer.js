@@ -61,6 +61,26 @@ export default function test(state = {}, action){
                 const check = task.checklists.find(a => a.id === action.check)
                 check.done = action.value
             })
+        case "CREATE_CHECK_SUCCESS":
+            return produce(state, draft => {
+                const activity = draft.project.tasks.find(a => a.id === action.activity)
+                const task =  activity.activities.find(a => a.id === action.task)
+                task.checklists.push(action.value)
+            })
+        case "REMOVE_RESPONSIBLE_SUCCESS":
+            return produce(state, draft => {
+                const activity = draft.project.tasks.find(a => a.id === action.activity)
+                const task =  activity.activities.find(a => a.id === action.task)
+                const responsible = task.responsibles.find(r => r.id === action.member)
+                const index = task.responsibles.indexOf(responsible)
+                task.responsibles.splice(index, 1)
+            })
+        case "ADD_RESPONSIBLE_SUCCESS":
+            return produce(state, draft => {
+                const activity = draft.project.tasks.find(a => a.id === action.activity)
+                const task =  activity.activities.find(a => a.id === action.task)
+                task.responsibles.push(action.member)
+            })
         default:
             return state
     }

@@ -1,17 +1,18 @@
 import {all, call, put, select, takeLatest} from "@redux-saga/core/effects";
 import {
+    addResponsibleSuccess,
     changeCheckSuccess,
-    changeListNameSuccess, changeTaskDescriptionSuccess,
+    changeListNameSuccess, changeTaskDescriptionSuccess, createCheckSuccess,
     createListSuccess,
     createTaskSuccess,
     deleteListSuccess,
     getProjectSuccess,
     moveActivitySuccess,
-    moveTaskSuccess
+    moveTaskSuccess, removeResponsibleSuccess
 } from "./action";
 import api from "../../../services/api";
 import {toast} from "react-toastify";
-import {currentUser} from "../../../utils/utils";
+import {currentUser, getRandomColor} from "../../../utils/utils";
 
 function* getProjectRequest({id}){
     const response = yield call(api.get, "/project/show/" + id)
@@ -138,6 +139,50 @@ function* changeCheckRequest({check, task, value}){
     }
 }
 
+function* createCheckRequest({task, value}){
+    try {
+        const toSend = {
+            title: value,
+            done: false,
+            activity: {
+                id: task.id
+            }
+        }
+        const response = yield call(api.post, "/checklistitem/save/", toSend)
+        const check = response.data
+        yield put(createCheckSuccess(task.id, task.activityList.id, check))
+    } catch (error){
+        toast.error("Não foi criar o checklist.")
+    }
+}
+function* removeResponsibleRequest({task, member}){
+    try {
+        const newResponsibles = task.responsibles.filter(r => r.id !== member.id)
+        const toSend = {
+            responsibles: newResponsibles
+        }
+        const response = yield call(api.put, "/activity/update/"+task.id, toSend)
+        yield put(removeResponsibleSuccess(task.id, task.activityList.id, member.id))
+    } catch (error){
+        toast.error("Não foi remover o responsável.")
+    }
+}
+function* addResponsibleRequest({task, member}){
+    try {
+        const project = yield select(state => state.projects.project)
+        const responsible =  project.members.find(m => m.id === member)
+        const newResponsibles = [...task.responsibles]
+        newResponsibles.push(responsible)
+        const toSend = {
+            responsibles: newResponsibles
+        }
+        const response = yield call(api.put, "/activity/update/"+task.id, toSend)
+        yield put(addResponsibleSuccess(task.id, task.activityList.id, responsible))
+    } catch (error){
+        toast.error("Não foi adicionar o responsável.")
+    }
+}
+
 export default all(
     [
         takeLatest("GET_PROJECT_REQUEST", getProjectRequest),
@@ -149,5 +194,8 @@ export default all(
         takeLatest("CHANGE_LIST_NAME_REQUEST", changeListNameRequest),
         takeLatest("CHANGE_TASK_DESCRIPTION_REQUEST", changeTaskDescriptionRequest),
         takeLatest("CHANGE_CHECK_REQUEST", changeCheckRequest),
+        takeLatest("CREATE_CHECK_REQUEST", createCheckRequest),
+        takeLatest("REMOVE_RESPONSIBLE_REQUEST", removeResponsibleRequest),
+        takeLatest("ADD_RESPONSIBLE_REQUEST", addResponsibleRequest),
     ]
 )

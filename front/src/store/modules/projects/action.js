@@ -134,3 +134,50 @@ export function changeCheckSuccess(check, task, activity, value){
         value,
     }
 }
+
+export function createCheckRequest(task, value){
+    return {
+        type: "CREATE_CHECK_REQUEST",
+        task,
+        value
+    }
+}
+export function createCheckSuccess(task, activity, value){
+    return {
+        type: "CREATE_CHECK_SUCCESS",
+        task,
+        activity,
+        value,
+    }
+}
+
+export function removeResponsibleRequest(task, member){
+    return {
+        type: "REMOVE_RESPONSIBLE_REQUEST",
+        task,
+        member,
+    }
+}
+export function removeResponsibleSuccess(task, activity, member){
+    return {
+        type: "REMOVE_RESPONSIBLE_SUCCESS",
+        task,
+        activity,
+        member,
+    }
+}
+export function addResponsibleRequest(task, member){
+    return {
+        type: "ADD_RESPONSIBLE_REQUEST",
+        task,
+        member,
+    }
+}
+export function addResponsibleSuccess(task, activity, member){
+    return {
+        type: "ADD_RESPONSIBLE_SUCCESS",
+        task,
+        activity,
+        member,
+    }
+}

@@ -123,6 +123,18 @@ class Board extends React.Component {
         )
     };
 
+    renderAvatar = (member) => {
+        return (
+            <Tooltip key={member.id} title={member.name}>
+                <Avatar
+                    style={{backgroundColor: getRandomColor(), margin: '2px'}}
+                >
+                    {getAbbreviation(member.name)}
+                </Avatar>
+            </Tooltip>
+        );
+    }
+
     renderProjects = () => {
         return <Collapse
             ghost
@@ -189,16 +201,6 @@ class Board extends React.Component {
             )
         })
     }
-
-    renderAvatar = (member) => (
-        <Tooltip title={member.name}>
-            <Avatar
-                style={{backgroundColor: getRandomColor(), margin: '2px'}}
-            >
-                {getAbbreviation(member.name)}
-            </Avatar>
-        </Tooltip>
-    )
 
     openModal = c => {
         this.setState({
@@ -282,7 +284,7 @@ class Board extends React.Component {
                     </Form.Item>
                     Projetos:
                     {c.projects.length !== 0 ? c.projects.map(p => (
-                        <Tooltip title={p.name}>
+                        <Tooltip key={p.id} title={p.name}>
                             <Avatar
                                 style={{backgroundColor: getRandomColor(), margin: '2px'}}>
                                 {getAbbreviation(p.name)}
