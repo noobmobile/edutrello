@@ -7,6 +7,10 @@ import {DragTypes} from "../constants";
 import {moveTaskRequest} from "../../../store/modules/projects/action";
 import {connect} from "react-redux";
 import {AlignLeftOutlined, CheckOutlined, ClockCircleOutlined, CommentOutlined, TeamOutlined} from "@ant-design/icons";
+import {StyledDeleteButton} from "../style";
+import {IoTrashOutline} from "react-icons/all";
+import Avatar from "antd/lib/avatar/avatar";
+import {getAbbreviation} from "../../../utils/utils";
 
 function ListDnd(props) {
     function wasDropped(drop, activity) {
@@ -24,6 +28,25 @@ function ListDnd(props) {
             isOver: !!monitor.isOver()
         })
     })
+    const renderResponsibles = (members) => {
+        return members
+            .map(member => {
+                return (
+                    <Tooltip
+                        key={member.id}
+                        title={member.name}
+                        placement="bottomRight"
+                    >
+                        <Avatar
+                            size="small"
+                            style={{backgroundColor: member.color, margin: '2px'}}
+                        >
+                            {getAbbreviation(member.name)}
+                        </Avatar>
+                    </Tooltip>
+                );
+            })
+    };
     const tasks = [...props.activity.activities]
         .sort((x, y) => x.position - y.position)
     return (
@@ -61,7 +84,7 @@ function ListDnd(props) {
                                     ? (
                                         <div style={{paddingRight: '4px'}}>
                                             <Tooltip
-                                                title={"Responsáveis: " + item.responsibles.map(r => r.name).join(", ")}
+                                                title={renderResponsibles(item.responsibles)}
                                             >
                                                 <TeamOutlined style={{fontSize: '16px'}}/>
                                             </Tooltip>
@@ -85,6 +108,7 @@ function ListDnd(props) {
 
 
     )
+
 }
 
 export default connect()(ListDnd)
