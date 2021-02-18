@@ -181,3 +181,35 @@ export function addResponsibleSuccess(task, activity, member){
         member,
     }
 }
+
+export function changeTaskTitleRequest(task, title){
+    return {
+        type: "CHANGE_TASK_TITLE_REQUEST",
+        task,
+        title,
+    }
+}
+
+export function changeTaskTitleSuccess(task, activity, title){
+    return {
+        type: "CHANGE_TASK_TITLE_SUCCESS",
+        task,
+        activity,
+        title,
+    }
+}
+
+export function deleteTaskRequest(task){
+    return {
+        type: "DELETE_TASK_REQUEST",
+        task,
+    }
+}
+
+export function deleteTaskSuccess(task, activity){
+    return {
+        type: "DELETE_TASK_SUCCESS",
+        task,
+        activity,
+    }
+}

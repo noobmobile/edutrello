@@ -81,6 +81,19 @@ export default function test(state = {}, action){
                 const task =  activity.activities.find(a => a.id === action.task)
                 task.responsibles.push(action.member)
             })
+        case "CHANGE_TASK_TITLE_SUCCESS":
+            return produce(state, draft => {
+                const activity = draft.project.tasks.find(a => a.id === action.activity)
+                const task =  activity.activities.find(a => a.id === action.task)
+                task.title = action.title
+            })
+        case "DELETE_TASK_SUCCESS":
+            return produce(state, draft => {
+                const activity = draft.project.tasks.find(a => a.id === action.activity)
+                const task =  activity.activities.find(a => a.id === action.task)
+                const index = activity.activities.indexOf(task)
+                activity.activities.splice(index, 1)
+            })
         default:
             return state
     }

@@ -2,10 +2,10 @@ import {all, call, put, select, takeLatest} from "@redux-saga/core/effects";
 import {
     addResponsibleSuccess,
     changeCheckSuccess,
-    changeListNameSuccess, changeTaskDescriptionSuccess, createCheckSuccess,
+    changeListNameSuccess, changeTaskDescriptionSuccess, changeTaskTitleSuccess, createCheckSuccess,
     createListSuccess,
     createTaskSuccess,
-    deleteListSuccess,
+    deleteListSuccess, deleteTaskSuccess,
     getProjectSuccess,
     moveActivitySuccess,
     moveTaskSuccess, removeResponsibleSuccess
@@ -183,6 +183,27 @@ function* addResponsibleRequest({task, member}){
     }
 }
 
+function* changeTaskTitleRequest({task, title}){
+    try {
+        const toSend = {
+            title: title
+        }
+        const response = yield call(api.put, "/activity/update/"+task.id, toSend)
+        yield put(changeTaskTitleSuccess(task.id, task.activityList.id, title))
+    } catch (error){
+        toast.error("Não foi possível alterar o título da tarefa.")
+    }
+}
+
+function* deleteTaskRequest({task}){
+    try {
+        const response = yield call(api.delete, "/activity/delete/"+task.id)
+        yield put(deleteTaskSuccess(task.id, task.activityList.id))
+    } catch (error){
+        toast.error("Não foi possível deletar a tarefa.")
+    }
+}
+
 export default all(
     [
         takeLatest("GET_PROJECT_REQUEST", getProjectRequest),
@@ -197,5 +218,7 @@ export default all(
         takeLatest("CREATE_CHECK_REQUEST", createCheckRequest),
         takeLatest("REMOVE_RESPONSIBLE_REQUEST", removeResponsibleRequest),
         takeLatest("ADD_RESPONSIBLE_REQUEST", addResponsibleRequest),
+        takeLatest("CHANGE_TASK_TITLE_REQUEST", changeTaskTitleRequest),
+        takeLatest("DELETE_TASK_REQUEST", deleteTaskRequest),
     ]
 )

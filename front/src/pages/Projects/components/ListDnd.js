@@ -11,6 +11,7 @@ import {StyledDeleteButton} from "../style";
 import {IoTrashOutline} from "react-icons/all";
 import Avatar from "antd/lib/avatar/avatar";
 import {getAbbreviation} from "../../../utils/utils";
+import moment from 'moment';
 
 function ListDnd(props) {
     function wasDropped(drop, activity) {
@@ -53,6 +54,7 @@ function ListDnd(props) {
         <div ref={props.activity.activities.length === 0 ? drop : null}>
             <List
                 itemLayout="horizontal"
+                locale={{ emptyText: <div/> }}
                 dataSource={tasks}
                 renderItem={item => {
                     const description =
@@ -79,8 +81,9 @@ function ListDnd(props) {
                                             <CommentOutlined style={{fontSize: '16px'}}/>
                                         </div>
                                     )
-                                    : null}
-                                    {item.responsibles.length !== 0
+                                    : null
+                                }
+                                {item.responsibles.length !== 0
                                     ? (
                                         <div style={{paddingRight: '4px'}}>
                                             <Tooltip
@@ -90,7 +93,25 @@ function ListDnd(props) {
                                             </Tooltip>
                                         </div>
                                     )
-                                    : null}
+                                    : null
+                                }
+                                {item.deadline
+                                    ? (
+                                        <div style={{paddingRight: '4px'}}>
+                                            <Tooltip
+                                                title={"Prazo: "+ moment(item.deadline).format("DD/MM/yyyy")}
+                                            >
+                                                <ClockCircleOutlined style={
+                                                    {
+                                                        fontSize: '16px',
+                                                        color: new Date().getTime() > item.deadline ? 'red' : 'inherit'
+                                                    }
+                                                }/>
+                                            </Tooltip>
+                                        </div>
+                                    )
+                                    : null
+                                }
                             </div>
                         </div>
 

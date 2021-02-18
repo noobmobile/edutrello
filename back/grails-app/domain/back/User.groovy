@@ -12,6 +12,7 @@ class User {
         login(unique: true)
         name(size: 5..30)
         password(password: true)
+        color(nullable: true)
         //teams()
     }
 

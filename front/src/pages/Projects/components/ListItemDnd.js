@@ -1,14 +1,25 @@
-import {List, Modal} from "antd";
-import {CheckOutlined, FileOutlined} from "@ant-design/icons";
+import {Avatar, Button, Input, List, Modal, TimePicker, Tooltip} from "antd";
+import {
+    CheckOutlined,
+    ClockCircleOutlined,
+    DeleteOutlined,
+    EditOutlined,
+    ExclamationCircleOutlined,
+    FileOutlined
+} from "@ant-design/icons";
 import * as React from "react";
 import {useDrag, useDrop} from "react-dnd";
 import {DragTypes} from "../constants";
-import {moveTaskRequest} from "../../../store/modules/projects/action";
+import {changeTaskTitleRequest, deleteTaskRequest, moveTaskRequest} from "../../../store/modules/projects/action";
 import {connect} from "react-redux";
 import {useEffect, useState} from "react";
 import {getEmptyImage} from "react-dnd-html5-backend";
 import {StyledItem} from "../style";
 import ListItemModal from "./ListItemModal";
+import {getAbbreviation} from "../../../utils/utils";
+import moment from "moment";
+import ButtonTransformer from "../../../components/ButtonTransformer";
+import {IoTrashOutline} from "react-icons/all";
 
 function ListItemDnd(props) {
     const [visibleModal, setVisibleModal] = useState(null)
@@ -42,6 +53,23 @@ function ListItemDnd(props) {
             isOverAfter: !!monitor.isOver()
         })
     })
+    const changeTaskTitle = (activity, value) => {
+        const {dispatch} = props
+        dispatch(changeTaskTitleRequest(activity, value))
+    }
+    const deleteTask = (activity) => {
+        const {dispatch} = props
+        Modal.confirm({
+            title: "Você tem certeza?",
+            icon: <ExclamationCircleOutlined />,
+            content: "Você quer deletar a tarefa " + activity.title + "?",
+            onOk() {
+                dispatch(deleteTaskRequest(activity))
+            },
+            onCancel() {
+            },
+        })
+    }
     const createListItemModal = (activity) => (
         <Modal
             key={activity.id}
@@ -50,16 +78,63 @@ function ListItemDnd(props) {
             footer={null}
             title={
                 <div style={{display: 'flex', alignItems: 'end'}}>
-                    <FileOutlined style={{fontSize: '20px', marginRight: '5px'}}/>
+                    <FileOutlined style={{fontSize: '20px', marginRight: '5px', marginTop: '5px'}}/>
                     <div>
-                       <span style={{fontSize: '18px'}}>
-                        {activity.title}
-                    </span>
+                        <Input
+                            defaultValue={activity.title}
+                            onBlur={(e) => changeTaskTitle(activity, e.target.value)}
+                            style={
+                                {
+                                    fontSize: '18px',
+                                    margin: 0,
+                                    padding: 0,
+                                    fontWeight: 500,
+                                    border: 0,
+                                }
+                            }
+                        />
                         <small style={{display: 'block', opacity: '0.80'}}>
                             Na lista <span style={{fontStyle: 'italic'}}>{activity.activityList.name}</span>
                         </small>
                     </div>
-
+                    <div style={{position: 'absolute',  right: '60px', top: '13px'}}>
+                        <Tooltip
+                            key={activity.creator.id}
+                            title={"Criador: " + activity.creator.name}
+                        >
+                            <Avatar
+                                size="small"
+                                style={{backgroundColor: activity.creator.color}}
+                            >
+                                {getAbbreviation(activity.creator.name)}
+                            </Avatar>
+                        </Tooltip>
+                        <Button
+                            style={{
+                                border: 0,
+                                padding: 0,
+                                marginLeft: '10px'
+                            }}
+                        >
+                            <Tooltip title={
+                                activity.deadline === null ? "Sem prazo" : "Prazo: "+moment(activity.deadline).format("DD/MM/yyyy")
+                            }>
+                                <ClockCircleOutlined style={{
+                                    color: activity.deadline && new Date().getTime() > activity.deadline ? 'red' : 'inherit'
+                                }}/>
+                            </Tooltip>
+                        </Button>
+                        <Button
+                            onClick={() => deleteTask(activity)}
+                            style={{
+                                border: 0,
+                                padding: 0,
+                                marginLeft: '10px'
+                            }}
+                        >
+                            <DeleteOutlined/>
+                        </Button>
+                    </div>
                 </div>
             }
         >
