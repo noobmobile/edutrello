@@ -1,6 +1,6 @@
 import 'antd/dist/antd.css';
 import styled from "styled-components";
-import {Avatar, Button, Card, Form, Input, List, Select} from "antd";
+import {Avatar, Button, Checkbox, Card, Form, Input, List, Select} from "antd";
 import {colors} from "../../styles/colors";
 import {darken, lighten} from "polished";
 
@@ -151,6 +151,19 @@ export const StyledTextArea = styled(Input.TextArea)`
 export const StyledCheckList = styled.div`
   display: block;
   margin-top: 5px;
+  width: 100%;
+  Button {
+    border: 0;
+    margin: 0;
+    padding: 0 5px;
+    float: right;
+    height: unset;
+    opacity: 0.75;
+    background-color: inherit;
+    &:hover {
+      background-color: ${darken(0.15, '#fff')};
+    }
+  }
   &:hover {
     background-color: ${darken(0.05, '#fff')};
   }

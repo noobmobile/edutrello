@@ -36,7 +36,7 @@ class Home extends React.Component{
             <Container>
                 <StyledMenu
                     onSelect={({key}) => this.setState({option: key})}
-                    selectedKeys={this.state.option}
+                    selectedkeys={this.state.option}
                 >
                     <StyledItem key="teams">
                         <TeamOutlined/>Times

@@ -94,6 +94,14 @@ export default function test(state = {}, action){
                 const index = activity.activities.indexOf(task)
                 activity.activities.splice(index, 1)
             })
+        case "DELETE_CHECK_SUCCESS":
+            return produce(state, draft => {
+                const activity = draft.project.tasks.find(a => a.id === action.activity)
+                const task =  activity.activities.find(a => a.id === action.task)
+                const check = task.checklists.find(a => a.id === action.check)
+                const index = task.checklists.indexOf(check)
+                task.checklists.splice(index, 1)
+            })
         default:
             return state
     }

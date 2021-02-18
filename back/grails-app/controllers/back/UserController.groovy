@@ -25,5 +25,15 @@ class UserController extends RestfulController<User> {
         } as JSON
     }
 
+    def tasks = { params ->
+        if (!params.id) return
+        def userId = params.id as long
+        render Activity.createCriteria().listDistinct {
+            responsibles {
+                idEq(userId)
+            }
+        } as JSON
+    }
+
 
 }

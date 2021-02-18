@@ -213,3 +213,20 @@ export function deleteTaskSuccess(task, activity){
         activity,
     }
 }
+
+export function deleteCheckRequest(check, task){
+    return {
+        type: "DELETE_CHECK_REQUEST",
+        check,
+        task,
+    }
+}
+
+export function deleteCheckSuccess(check, task, activity){
+    return {
+        type: "DELETE_CHECK_SUCCESS",
+        check,
+        task,
+        activity,
+    }
+}

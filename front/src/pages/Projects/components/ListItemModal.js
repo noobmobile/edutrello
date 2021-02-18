@@ -1,6 +1,6 @@
-import {Badge, Button, Checkbox, Input, Modal, Select, Tooltip} from "antd";
+import {Badge, Button, Checkbox, Input, Modal, Progress, Select, Tooltip} from "antd";
 import * as React from "react";
-import {AlignLeftOutlined, CheckOutlined, PlusOutlined, TeamOutlined} from "@ant-design/icons";
+import {AlignLeftOutlined, CheckOutlined, DeleteOutlined, PlusOutlined, TeamOutlined} from "@ant-design/icons";
 import {
     StyledAvatar,
     StyledCheckList,
@@ -19,6 +19,7 @@ import {connect} from "react-redux";
 import {getAbbreviation} from "../../../utils/utils";
 import Avatar from "antd/lib/avatar/avatar";
 import {IoTrashOutline} from "react-icons/all";
+import ChecklistItem from "./ChecklistItem";
 
 class ListItemModal extends React.Component {
 
@@ -96,7 +97,11 @@ class ListItemModal extends React.Component {
                     <div style={{ margin: '10px 30px'}}>
                         {this.props.activity.checklists.length === 0
                             ? <p style={{display: this.state.inputCheckVisible ? 'none' : 'unset'}}>Nenhuma</p>
-                            : this.createChecks()
+                            :
+                            <>
+                                <Progress percent={Math.ceil((this.props.activity.checklists.filter(c => c.done).length / this.props.activity.checklists.length) * 100)}/>
+                                {this.createChecks()}
+                            </>
                         }
                         <StyledInput
                             ref={this.inputCheckRef}
@@ -119,17 +124,10 @@ class ListItemModal extends React.Component {
     )
 
     createCheck = check => {
-        return (
-            <StyledCheckList key={check.id}>
-                <Checkbox
-                    style={{width: "100%"}}
-                    defaultChecked={check.done}
-                    onChange={(e) => this.changeCheck(check, this.props.activity, e.target.checked)}
-                >
-                    {check.title}
-                </Checkbox>
-            </StyledCheckList>
-        )
+        return <ChecklistItem
+            activity={this.props.activity}
+            check={check}/>
+
     };
 
     renderResponsibles = () => {
@@ -184,11 +182,6 @@ class ListItemModal extends React.Component {
         console.log(member)
         dispatch(removeResponsibleRequest(activity, member))
     }
-
-    changeCheck = (check, activity, checked) => {
-        const {dispatch} = this.props
-        dispatch(changeCheckRequest(check, activity, checked))
-    };
 
     changeDescription = (activity, value) => {
         const {dispatch} = this.props
