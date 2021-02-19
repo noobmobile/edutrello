@@ -1,10 +1,7 @@
 import * as React from "react";
 import {Button, Form, Input} from "antd";
-import {darken} from "polished";
 import {CloseOutlined, PlusOutlined} from "@ant-design/icons";
-import {colors} from "../../../styles/colors";
 import {StyledButton, StyledForm} from "../style";
-import {defaultRule} from "../../../utils/utils";
 import {createListRequest} from "../../../store/modules/projects/action";
 import {connect} from "react-redux";
 

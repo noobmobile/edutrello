@@ -230,3 +230,20 @@ export function deleteCheckSuccess(check, task, activity){
         activity,
     }
 }
+
+export function changeTaskDeadlineRequest(task, deadline){
+    return {
+        type: "CHANGE_TASK_DEADLINE_REQUEST",
+        task,
+        deadline,
+    }
+}
+
+export function changeTaskDeadlineSuccess(task, activity, deadline){
+    return {
+        type: "CHANGE_TASK_DEADLINE_SUCCESS",
+        task,
+        activity,
+        deadline,
+    }
+}

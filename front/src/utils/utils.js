@@ -1,5 +1,3 @@
-import {Tooltip} from "antd";
-import Avatar from "antd/lib/avatar/avatar";
 import * as React from "react";
 
 export function getAbbreviation(name){

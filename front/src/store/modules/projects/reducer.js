@@ -102,6 +102,12 @@ export default function test(state = {}, action){
                 const index = task.checklists.indexOf(check)
                 task.checklists.splice(index, 1)
             })
+        case "CHANGE_TASK_DEADLINE_SUCCESS":
+            return produce(state, draft => {
+                const activity = draft.project.tasks.find(a => a.id === action.activity)
+                const task =  activity.activities.find(a => a.id === action.task)
+                task.deadline = action.deadline
+            })
         default:
             return state
     }

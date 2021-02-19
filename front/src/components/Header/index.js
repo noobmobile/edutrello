@@ -1,11 +1,11 @@
 import * as React from "react";
-import {Avatar, Badge, Calendar, Menu, Tooltip} from "antd";
+import {Avatar, Badge, Calendar, ConfigProvider, Menu, Tooltip} from "antd";
 import {
     StyledHeader,
     StyledMenu,
     StyledItem,
     StyledGroup,
-    StyledSubMenu, StyledCalendar,
+    StyledSubMenu,
 } from "./style";
 import {
     CalendarOutlined,
@@ -19,10 +19,11 @@ import {
 
 import moment from "moment";
 import {connect} from "react-redux";
-import {useLocation} from "react-router";
 import {withRouter} from "react-router-dom";
-import {select} from "@redux-saga/core/effects";
 import {currentUser} from "../../utils/utils";
+import locale from 'antd/lib/locale/pt_BR';
+import 'moment/locale/pt-br';
+
 class Header extends React.Component {
 
     constructor(props) {
@@ -31,6 +32,9 @@ class Header extends React.Component {
 
     render(){
         document.title = "Grillo - Gerenciador de Atividades"
+        moment.updateLocale('pt-br', {
+            weekdaysMin : ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"]
+        });
         const {pathname} = this.props.location;
         return (
             <StyledHeader>
@@ -66,11 +70,15 @@ class Header extends React.Component {
                     {pathname.startsWith("/project/") &&
                         <StyledSubMenu triggerSubMenuAction="click" key="3" icon={<CalendarOutlined/>}>
                             <div style={{width: '800px'}}>
-                                <Calendar
-                                    headerRender={() => null}
-                                    dateCellRender={this.dateCellRender}
-                                    value={moment(new Date())}
-                                />
+                                <ConfigProvider locale={locale}>
+                                    <Calendar
+                                        locale={locale}
+                                        headerRender={() => null}
+                                        dateCellRender={this.dateCellRender}
+                                        value={moment(new Date())}
+                                    />
+                                </ConfigProvider>
+
                             </div>
 
                         </StyledSubMenu>
@@ -82,15 +90,18 @@ class Header extends React.Component {
     }
 
     getListData = value => {
-        return this.props.project.tasks.map(t => t.activities)
+        return this.props.project.tasks
+            .map(t => t.activities)
             .flat()
             .filter(a => a.responsibles.some(r => r.id === currentUser))
             .filter(a => a.deadline !== null)
             .filter(a => moment(a.deadline).date() === value.date())
+            .sort((a, b) => a.id - b.id)
             .map(a => (
                 {
                     content: a.title,
-                    type: new Date().getTime() > a.deadline ? 'error' : 'success'
+                    type: new Date().getTime() > a.deadline ? 'error' : 'success',
+                    list: a.activityList.name
                 }
             )) || []
     };
@@ -104,7 +115,16 @@ class Header extends React.Component {
                 listStyle: 'none',
             }}>
                 {listData.map(item => (
-                    <Tooltip key={item.content} title={item.content}>
+                    <Tooltip key={item.content} title={
+                        <div>
+                            <span style={{display: 'block'}}>
+                                {item.content}
+                            </span>
+                            <small>
+                                Na lista <span style={{fontStyle: 'italic'}}>{item.list}</span>
+                            </small>
+                        </div>
+                    }>
                         <li>
                             <Badge
                                 style={{

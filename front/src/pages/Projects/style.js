@@ -1,8 +1,8 @@
 import 'antd/dist/antd.css';
 import styled from "styled-components";
-import {Avatar, Button, Checkbox, Card, Form, Input, List, Select} from "antd";
+import {Button, Card, Form, Input, List, Select} from "antd";
 import {colors} from "../../styles/colors";
-import {darken, lighten} from "polished";
+import {darken} from "polished";
 
 export const Container = styled.div`
   padding: 20px 40px;

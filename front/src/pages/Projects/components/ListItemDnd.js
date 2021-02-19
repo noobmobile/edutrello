@@ -1,25 +1,13 @@
-import {Avatar, Button, Input, List, Modal, TimePicker, Tooltip} from "antd";
-import {
-    CheckOutlined,
-    ClockCircleOutlined,
-    DeleteOutlined,
-    EditOutlined,
-    ExclamationCircleOutlined,
-    FileOutlined
-} from "@ant-design/icons";
+import {List, Modal} from "antd";
 import * as React from "react";
 import {useDrag, useDrop} from "react-dnd";
 import {DragTypes} from "../constants";
-import {changeTaskTitleRequest, deleteTaskRequest, moveTaskRequest} from "../../../store/modules/projects/action";
+import {moveTaskRequest} from "../../../store/modules/projects/action";
 import {connect} from "react-redux";
 import {useEffect, useState} from "react";
 import {getEmptyImage} from "react-dnd-html5-backend";
 import {StyledItem} from "../style";
 import ListItemModal from "./ListItemModal";
-import {getAbbreviation} from "../../../utils/utils";
-import moment from "moment";
-import ButtonTransformer from "../../../components/ButtonTransformer";
-import {IoTrashOutline} from "react-icons/all";
 import ListItemModalTitle from "./ListItemModalTitle";
 
 function ListItemDnd(props) {

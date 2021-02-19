@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Container, StyledCard, StyledLoading} from "./style";
+import {Container, StyledLoading} from "./style";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import {DndProvider} from "react-dnd";

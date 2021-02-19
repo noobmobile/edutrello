@@ -2,13 +2,20 @@ import {all, call, put, select, takeLatest} from "@redux-saga/core/effects";
 import {
     addResponsibleSuccess,
     changeCheckSuccess,
-    changeListNameSuccess, changeTaskDescriptionSuccess, changeTaskTitleSuccess, createCheckSuccess,
+    changeListNameSuccess,
+    changeTaskDeadlineSuccess,
+    changeTaskDescriptionSuccess,
+    changeTaskTitleSuccess,
+    createCheckSuccess,
     createListSuccess,
-    createTaskSuccess, deleteCheckSuccess,
-    deleteListSuccess, deleteTaskSuccess,
+    createTaskSuccess,
+    deleteCheckSuccess,
+    deleteListSuccess,
+    deleteTaskSuccess,
     getProjectSuccess,
     moveActivitySuccess,
-    moveTaskSuccess, removeResponsibleSuccess
+    moveTaskSuccess,
+    removeResponsibleSuccess
 } from "./action";
 import api from "../../../services/api";
 import {toast} from "react-toastify";
@@ -227,6 +234,19 @@ function* deleteCheckRequest({check, task}){
     }
 }
 
+function* changeTaskDeadlineRequest({task, deadline}){
+    try {
+        const toSend = {
+            deadline: deadline
+        }
+        const response = yield call(api.put, "/activity/update/"+task.id, toSend)
+        yield put(changeTaskDeadlineSuccess(task.id, task.activityList.id, deadline))
+    } catch (error){
+        toast.error("Não foi possível alterar o prazo dessa tarefa.")
+        console.log(error)
+    }
+}
+
 export default all(
     [
         takeLatest("GET_PROJECT_REQUEST", getProjectRequest),
@@ -244,5 +264,6 @@ export default all(
         takeLatest("CHANGE_TASK_TITLE_REQUEST", changeTaskTitleRequest),
         takeLatest("DELETE_TASK_REQUEST", deleteTaskRequest),
         takeLatest("DELETE_CHECK_REQUEST", deleteCheckRequest),
+        takeLatest("CHANGE_TASK_DEADLINE_REQUEST", changeTaskDeadlineRequest),
     ]
 )

@@ -1,9 +1,7 @@
-import {Badge, Button, Checkbox, Input, Modal, Progress, Select, Tooltip} from "antd";
+import {Progress, Select, Tooltip} from "antd";
 import * as React from "react";
-import {AlignLeftOutlined, CheckOutlined, DeleteOutlined, PlusOutlined, TeamOutlined} from "@ant-design/icons";
+import {AlignLeftOutlined, CheckOutlined, PlusOutlined, TeamOutlined} from "@ant-design/icons";
 import {
-    StyledAvatar,
-    StyledCheckList,
     StyledDeleteButton,
     StyledInput,
     StyledPlusButton, StyledSelect,
@@ -11,7 +9,6 @@ import {
 } from "../style";
 import {
     addResponsibleRequest,
-    changeCheckRequest,
     changeTaskDescriptionRequest,
     createCheckRequest, removeResponsibleRequest
 } from "../../../store/modules/projects/action";
