@@ -1,11 +1,8 @@
-import {Button, Empty, Modal, Progress, Select, Tooltip, Upload} from "antd";
+import {Progress, Select, Tooltip} from "antd";
 import * as React from "react";
 import {
     AlignLeftOutlined,
-    CheckOutlined, DeleteOutlined,
-    DownloadOutlined, ExclamationCircleOutlined,
-    FileOutlined, LoadingOutlined,
-    PlusOutlined,
+    CheckOutlined, FileOutlined, PlusOutlined,
     TeamOutlined
 } from "@ant-design/icons";
 import {
@@ -21,12 +18,11 @@ import {
     createCheckRequest, removeResponsibleRequest
 } from "../../../store/modules/projects/action";
 import {connect} from "react-redux";
-import {downloadFile, getAbbreviation} from "../../../utils/utils";
+import {getAbbreviation} from "../../../utils/utils";
 import Avatar from "antd/lib/avatar/avatar";
 import {IoTrashOutline} from "react-icons/all";
 import ChecklistItem from "./ChecklistItem";
 import UploadButton from "../../../components/UploadButton";
-import { triggerBase64Download } from 'react-base64-downloader';
 import AttachmentButton from "./AttachmentButton";
 
 class ListItemModal extends React.Component {
@@ -175,7 +171,8 @@ class ListItemModal extends React.Component {
     };
 
     renderAttachments = () => {
-        return this.props.activity.attachments
+        return [...this.props.activity.attachments]
+            .sort((a, b) => a.id - b.id)
             .map(attachment =>
                     <AttachmentButton
                         attachment={attachment}
@@ -183,28 +180,6 @@ class ListItemModal extends React.Component {
                     />
             )
     };
-
-    clickOn = (attachment) => {
-        Modal.confirm({
-            icon: null,
-            title: attachment.fileName,
-            okText: "Baixar",
-            cancelText: "Voltar",
-            onOk: () => downloadFile(attachment.fileName, attachment.data),
-            content:
-                <div >
-                    {attachment.dataType?.includes("image")
-                        ? (
-                            <img
-                                style={{width: '100%'}}
-                                src={attachment.data} alt={attachment.id}/>
-                        )
-                        : (
-                            <Empty description="Arquivo sem preview."/>
-                        )}
-                </div>
-        })
-    }
 
     renderResponsibles = () => {
         return this.props.activity.responsibles

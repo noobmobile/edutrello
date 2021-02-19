@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {DeleteOutlined, DownloadOutlined, ExclamationCircleOutlined} from "@ant-design/icons";
-import {Button, Modal} from "antd";
-import {StyledCheckList} from "../style";
-import {deleteTaskRequest, removeAttachmentRequest} from "../../../store/modules/projects/action";
+import {Button, Empty, Modal} from "antd";
+import {removeAttachmentRequest} from "../../../store/modules/projects/action";
 import {connect} from "react-redux";
+import {downloadFile} from "../../../utils/utils";
 
 class AttachmentButton extends Component {
 
@@ -52,6 +52,30 @@ class AttachmentButton extends Component {
                 </Button>
             </Button>
         );
+    }
+
+    clickOn = (attachment) => {
+        Modal.confirm({
+            icon: null,
+            closable: true,
+            maskClosable: true,
+            title: attachment.fileName,
+            okText: "Baixar",
+            cancelText: "Voltar",
+            onOk: () => downloadFile(attachment.fileName, attachment.data),
+            content:
+                <div >
+                    {attachment.dataType?.includes("image")
+                        ? (
+                            <img
+                                style={{width: '100%'}}
+                                src={attachment.data} alt={attachment.id}/>
+                        )
+                        : (
+                            <Empty description="Arquivo sem preview."/>
+                        )}
+                </div>
+        })
     }
 
     askDelete = attachment => {

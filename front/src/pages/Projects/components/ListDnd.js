@@ -10,7 +10,6 @@ import {
     CheckOutlined,
     ClockCircleOutlined,
     CommentOutlined,
-    FileOutlined,
     PaperClipOutlined,
     TeamOutlined
 } from "@ant-design/icons";

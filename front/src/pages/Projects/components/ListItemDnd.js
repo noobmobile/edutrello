@@ -44,6 +44,7 @@ function ListItemDnd(props) {
     })
     const createListItemModal = (activity) => (
         <Modal
+            style={{top: 20}}
             key={activity.id}
             visible={visibleModal === activity.id}
             onCancel={() => setVisibleModal(null)}
