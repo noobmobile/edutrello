@@ -7,7 +7,7 @@ class Activity {
     Date dateCreated
     Date deadline
     int position
-    static hasMany = [responsibles: User, checklists: ChecklistItem]
+    static hasMany = [responsibles: User, checklists: ChecklistItem, attachments: Attachment]
     static belongsTo = [creator: User, activityList: ActivityList]
 
     static constraints = {
@@ -18,6 +18,7 @@ class Activity {
         responsibles(nullable: true)
         checklists(nullable: true)
         activityList()
+        attachments(nullable: true)
     }
 
     def beforeInsert = {
@@ -29,6 +30,9 @@ class Activity {
         }
         if (!checklists){
             checklists = []
+        }
+        if (attachments){
+            attachments = []
         }
     }
 

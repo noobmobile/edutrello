@@ -108,6 +108,20 @@ export default function test(state = {}, action){
                 const task =  activity.activities.find(a => a.id === action.task)
                 task.deadline = action.deadline
             })
+        case "ADD_ATTACHMENT_SUCCESS":
+            return produce(state, draft => {
+                const activity = draft.project.tasks.find(a => a.id === action.activity)
+                const task =  activity.activities.find(a => a.id === action.task)
+                task.attachments.push(action.attachment)
+            })
+        case "REMOVE_ATTACHMENT_SUCCESS":
+            return produce(state, draft => {
+                const activity = draft.project.tasks.find(a => a.id === action.activity)
+                const task =  activity.activities.find(a => a.id === action.task)
+                const attachment = task.attachments.find(a => a.id === action.attachment)
+                const index = task.attachments.indexOf(attachment)
+                task.attachments.splice(index, 1)
+            })
         default:
             return state
     }

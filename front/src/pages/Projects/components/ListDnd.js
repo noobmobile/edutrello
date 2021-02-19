@@ -6,7 +6,14 @@ import {useDrop} from "react-dnd";
 import {DragTypes} from "../constants";
 import {moveTaskRequest} from "../../../store/modules/projects/action";
 import {connect} from "react-redux";
-import {CheckOutlined, ClockCircleOutlined, CommentOutlined, TeamOutlined} from "@ant-design/icons";
+import {
+    CheckOutlined,
+    ClockCircleOutlined,
+    CommentOutlined,
+    FileOutlined,
+    PaperClipOutlined,
+    TeamOutlined
+} from "@ant-design/icons";
 import Avatar from "antd/lib/avatar/avatar";
 import {getAbbreviation} from "../../../utils/utils";
 import moment from 'moment';
@@ -93,6 +100,13 @@ function ListDnd(props) {
                                     )
                                     : null
                                 }
+                                {item.attachments.length !== 0
+                                    ? (
+                                        <div style={{paddingRight: '4px'}}>
+                                            <PaperClipOutlined style={{fontSize: '16px'}}/>
+                                        </div>
+                                    )
+                                    : null}
                                 {item.deadline
                                     ? (
                                         <div style={{paddingRight: '4px'}}>

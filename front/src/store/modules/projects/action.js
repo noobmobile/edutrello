@@ -247,3 +247,34 @@ export function changeTaskDeadlineSuccess(task, activity, deadline){
         deadline,
     }
 }
+
+export function addAttachmentRequest(task, attachment){
+    return {
+        type: "ADD_ATTACHMENT_REQUEST",
+        task,
+        attachment,
+    }
+}
+export function addAttachmentSuccess(task, activity, attachment){
+    return {
+        type: "ADD_ATTACHMENT_SUCCESS",
+        task,
+        activity,
+        attachment,
+    }
+}
+export function removeAttachmentRequest(task, attachment){
+    return {
+        type: "REMOVE_ATTACHMENT_REQUEST",
+        task,
+        attachment,
+    }
+}
+export function removeAttachmentSuccess(task, activity, attachment){
+    return {
+        type: "REMOVE_ATTACHMENT_SUCCESS",
+        task,
+        activity,
+        attachment,
+    }
+}

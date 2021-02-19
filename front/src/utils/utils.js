@@ -25,5 +25,12 @@ export const defaultRule = [
     }
 ]
 
+export function downloadFile(title,base64){
+    var a = document.createElement("a"); //Create <a>
+    a.href = base64; //Image Base64 Goes here
+    a.download = title; //File name Here
+    a.click(); //Downloaded file
+}
+
 export class renderAvatar {
 }

@@ -1,5 +1,6 @@
 import {all, call, put, select, takeLatest} from "@redux-saga/core/effects";
 import {
+    addAttachmentSuccess,
     addResponsibleSuccess,
     changeCheckSuccess,
     changeListNameSuccess,
@@ -14,7 +15,7 @@ import {
     deleteTaskSuccess,
     getProjectSuccess,
     moveActivitySuccess,
-    moveTaskSuccess,
+    moveTaskSuccess, removeAttachmentSuccess,
     removeResponsibleSuccess
 } from "./action";
 import api from "../../../services/api";
@@ -247,6 +248,32 @@ function* changeTaskDeadlineRequest({task, deadline}){
     }
 }
 
+function* addAttachmentRequest({task, attachment}){
+    try {
+        const toSend = {
+            ...attachment,
+            activity: {
+                id: task.id,
+            }
+        }
+        console.log(toSend)
+        const response = yield call(api.post, "/attachment/save/", toSend)
+        yield put(addAttachmentSuccess(task.id, task.activityList.id, response.data))
+    } catch (error){
+        toast.error("Não foi possível adicionar o anexo.")
+        console.log(error.stack)
+    }
+}
+function* removeAttachmentRequest({task, attachment}){
+    try {
+        const response = yield call(api.delete, "/attachment/delete/" + attachment.id)
+        yield put(removeAttachmentSuccess(task.id, task.activityList.id, attachment.id))
+    } catch (error){
+        toast.error("Não foi possível remover o anexo.")
+        console.log(error)
+    }
+}
+
 export default all(
     [
         takeLatest("GET_PROJECT_REQUEST", getProjectRequest),
@@ -265,5 +292,7 @@ export default all(
         takeLatest("DELETE_TASK_REQUEST", deleteTaskRequest),
         takeLatest("DELETE_CHECK_REQUEST", deleteCheckRequest),
         takeLatest("CHANGE_TASK_DEADLINE_REQUEST", changeTaskDeadlineRequest),
+        takeLatest("ADD_ATTACHMENT_REQUEST", addAttachmentRequest),
+        takeLatest("REMOVE_ATTACHMENT_REQUEST", removeAttachmentRequest),
     ]
 )

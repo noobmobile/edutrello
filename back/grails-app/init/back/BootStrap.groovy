@@ -57,6 +57,26 @@ class BootStrap {
                 converter.convertAnother(activity.responsibles)
                 jsonWriter.key("checklists")
                 converter.convertAnother(activity.checklists)
+                jsonWriter.key("attachments")
+                converter.convertAnother(activity.attachments)
+                jsonWriter.endObject()
+            }
+        })
+        JSON.registerObjectMarshaller(new ObjectMarshaller<JSON>() {
+            @Override
+            boolean supports(Object object) {
+                return object instanceof Attachment
+            }
+
+            @Override
+            void marshalObject(Object object, JSON converter) throws ConverterException {
+                def attachment = object as Attachment
+                def jsonWriter = converter.writer
+                jsonWriter.object()
+                jsonWriter.key("fileName").value(attachment.fileName)
+                jsonWriter.key("id").value(attachment.id)
+                jsonWriter.key("dataType").value(attachment.dataType)
+                jsonWriter.key("data").value(attachment.data)
                 jsonWriter.endObject()
             }
         })

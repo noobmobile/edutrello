@@ -91,7 +91,6 @@ class CreateListButton extends React.Component {
     };
 
     createList = args => {
-        console.log(args)
         const {dispatch} = this.props
         dispatch(createListRequest(args.title))
     };

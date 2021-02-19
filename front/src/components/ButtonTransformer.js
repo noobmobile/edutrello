@@ -20,7 +20,6 @@ class ButtonTransformer extends React.Component{
     }
 
     handleClickOutside = event => {
-        console.log(this.wrapperRef.current)
         if (this.wrapperRef
             && this.wrapperRef.current
             && !this.wrapperRef.current.contains(event.target)) {
@@ -29,7 +28,6 @@ class ButtonTransformer extends React.Component{
                         this.props.onUnfocus(this.wrapperRef.current)
                     }
                     this.setState({status: 'before'})
-                    console.log('b')
                 }
         }
     };

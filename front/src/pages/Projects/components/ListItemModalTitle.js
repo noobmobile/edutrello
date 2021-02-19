@@ -105,7 +105,6 @@ class ListItemModalTitle extends React.Component{
 
     changeTaskDeadline = (activity, date) => {
         const {dispatch} = this.props
-        console.log(date)
         dispatch(changeTaskDeadlineRequest(activity, date.getTime()))
     };
 

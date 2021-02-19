@@ -13,6 +13,7 @@
     "moment": "^2.29.1",
     "polished": "^4.1.0",
     "react": "^17.0.1",
+    "react-base64-downloader": "^2.1.6",
     "react-custom-scrollbars": "^4.2.1",
     "react-date-picker": "^8.0.7",
     "react-datepicker": "^3.5.0",
