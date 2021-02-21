@@ -147,7 +147,7 @@ class ListItemModal extends React.Component {
                 <span style={{fontSize: '16px', marginLeft: '10px', fontWeight: '500'}}>
                     Anexos
                 </span>
-                <div style={{display: 'inline-block',margin: '10px 30px', width: '100%'}}>
+                <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',margin: '10px 30px'}}>
                     {this.renderAttachments()}
                     <UploadButton
                         callback={(file) => this.addAttachment(this.props.activity, file)}
@@ -164,9 +164,13 @@ class ListItemModal extends React.Component {
     )
 
     createCheck = check => {
-        return <ChecklistItem
-            activity={this.props.activity}
-            check={check}/>
+        return (
+            <ChecklistItem
+                key={check.id}
+                activity={this.props.activity}
+                check={check}
+            />
+            )
 
     };
 
@@ -175,6 +179,7 @@ class ListItemModal extends React.Component {
             .sort((a, b) => a.id - b.id)
             .map(attachment =>
                     <AttachmentButton
+                        key={attachment.id}
                         attachment={attachment}
                         activity={this.props.activity}
                     />

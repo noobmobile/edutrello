@@ -50,7 +50,6 @@ class UploadButton extends React.Component {
         return (
             <div
                 style={{
-                    lineHeight: '60px',
                     width: 'unset',
                     display: 'inline-block'
                 }}

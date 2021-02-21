@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {DeleteOutlined, DownloadOutlined, ExclamationCircleOutlined} from "@ant-design/icons";
-import {Button, Empty, Modal} from "antd";
+import {Button, Empty, Input, Modal} from "antd";
 import {removeAttachmentRequest} from "../../../store/modules/projects/action";
 import {connect} from "react-redux";
 import {downloadFile} from "../../../utils/utils";
+import {  decode } from 'js-base64';
 
 class AttachmentButton extends Component {
 
@@ -24,15 +25,17 @@ class AttachmentButton extends Component {
                 style={{
                     width: '104px',
                     height: '104px',
+                    maxHeight: '104px',
                     margin: '0 8px 8px 0',
                     backgroundColor: '#fafafa',
+                    whiteSpace: 'break-spaces',
                 }}
             >
                 <div
                     onClick={() => this.clickOn(this.props.attachment)}
                 >
                     <DownloadOutlined />
-                    <div style={{whiteSpace: 'break-spaces'}}>{this.props.attachment.fileName}</div>
+                    <div>{this.props.attachment.fileName}</div>
                 </div>
                 <Button
                     onClick={() => this.askDelete(this.props.attachment)}
@@ -71,9 +74,19 @@ class AttachmentButton extends Component {
                                 style={{width: '100%'}}
                                 src={attachment.data} alt={attachment.id}/>
                         )
-                        : (
-                            <Empty description="Arquivo sem preview."/>
-                        )}
+                        : attachment.dataType?.includes("text/plain")
+                            ? (
+                                <Input.TextArea
+                                    autoSize
+                                    style={{backgroundColor: '#eee'}}
+                                    readOnly
+                                    defaultValue={decode(attachment.data.replace('data:text/plain;base64,', ''))}
+                                />
+                            )
+                            : (
+                                <Empty description="Arquivo sem preview."/>
+                                )
+                    }
                 </div>
         })
     }
