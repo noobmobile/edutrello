@@ -1,8 +1,10 @@
 package back
 
 import grails.converters.JSON
+import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
 
+@Secured('isAuthenticated()')
 class UserController extends RestfulController<User> {
     static responseFormats = ['json', 'xml']
 
@@ -35,5 +37,9 @@ class UserController extends RestfulController<User> {
         } as JSON
     }
 
-
+    @Secured('permitAll')
+    @Override
+    def save() {
+        return super.save()
+    }
 }

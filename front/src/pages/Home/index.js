@@ -22,7 +22,7 @@ class Home extends React.Component{
     }
 
     async componentDidMount() {
-        const teamsResponse = await api.get("user/teams/" + currentUser)
+        const teamsResponse = await api.get("user/teams/" + localStorage.currentUser)
         const usersResponse = await api.get("user")
         this.setState({
             teams: teamsResponse.data,
@@ -117,7 +117,7 @@ class Home extends React.Component{
         const team = {
             name: values.name,
             leader: {
-                id: currentUser
+                id: localStorage.currentUser
             },
             members: []
         };
@@ -188,7 +188,7 @@ class Home extends React.Component{
             tasks: []
         }
         const projectResponse = await api.post("project/save", project)
-        const teamsResponse = await api.get("user/teams/" + currentUser)
+        const teamsResponse = await api.get("user/teams/" + localStorage.currentUser)
         this.setState({
             loading: false,
             teams: teamsResponse.data,
@@ -202,15 +202,15 @@ class Home extends React.Component{
         return (
             this.state.teams
                 .sort((a, b) => {
-                    const aLeader = a.leader.id === currentUser
-                    const bLeader = b.leader.id === currentUser
+                    const aLeader = a.leader.id === localStorage.currentUser
+                    const bLeader = b.leader.id === localStorage.currentUser
                     return bLeader - aLeader
                 })
                 .map(u => (
-                <Select.Option key={u.id} disabled={u.leader.id !== currentUser}>
+                <Select.Option key={u.id} disabled={u.leader.id !== localStorage.currentUser}>
                     <Tooltip
                         placement="left"
-                        title={u.leader.id === currentUser ? "" : "Você precisa ser o líder do time."}
+                        title={u.leader.id === localStorage.currentUser ? "" : "Você precisa ser o líder do time."}
                     >
                         {u.name}
                     </Tooltip>
@@ -229,7 +229,7 @@ class Home extends React.Component{
     };
 
     updateTeams = async () => {
-        const teamsResponse = await api.get("user/teams/" + currentUser)
+        const teamsResponse = await api.get("user/teams/" + localStorage.currentUser)
         this.setState({
             teams: teamsResponse.data,
         })

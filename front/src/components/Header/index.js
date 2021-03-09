@@ -19,10 +19,11 @@ import {
 
 import moment from "moment";
 import {connect} from "react-redux";
-import {withRouter} from "react-router-dom";
-import {currentUser} from "../../utils/utils";
+import {Link, withRouter} from "react-router-dom";
+import {currentUser, getAbbreviation} from "../../utils/utils";
 import locale from 'antd/lib/locale/pt_BR';
 import 'moment/locale/pt-br';
+import {logOut} from "../../services/auth";
 
 class Header extends React.Component {
 
@@ -36,6 +37,7 @@ class Header extends React.Component {
             weekdaysMin : ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"]
         });
         const {pathname} = this.props.location;
+        if (pathname.startsWith("/login")) return null
         return (
             <StyledHeader>
                 <StyledMenu selectable={false} theme="dark" mode="horizontal">
@@ -48,14 +50,16 @@ class Header extends React.Component {
                     <StyledItem key="projects" icon={<ProjectOutlined/>}>
                         <a>Projetos</a>
                     </StyledItem>
-                    <StyledSubMenu style={{margin: "-2px 30px 5px 0"}} key="5" icon={<Avatar>LE</Avatar>}>
+                    <StyledSubMenu style={{margin: "-2px 30px 5px 0"}} key="5" icon={<Avatar>{getAbbreviation(localStorage.currentUserName)}</Avatar>}>
                         <StyledGroup title="Conta">
                             <Menu.Item key="account">
-                                <Avatar>LE</Avatar>
-                                <strong>Luiz Eduardo</strong>
+                                <Avatar>{getAbbreviation(localStorage.currentUserName)}</Avatar>
+                                <strong>{localStorage.currentUserName}</strong>
                             </Menu.Item>
-                            <Menu.Item key="logout">
-                                <LogoutOutlined/>Logout
+                            <Menu.Item onClick={() => logOut()} key="logout">
+                                <Link to="/login">
+                                    <LogoutOutlined/>Logout
+                                </Link>
                             </Menu.Item>
                         </StyledGroup>
                     </StyledSubMenu>
@@ -93,7 +97,7 @@ class Header extends React.Component {
         return this.props.project.tasks
             .map(t => t.activities)
             .flat()
-            .filter(a => a.responsibles.some(r => r.id === currentUser))
+            .filter(a => a.responsibles.some(r => r.id === localStorage.currentUser))
             .filter(a => a.deadline !== null)
             .filter(a => moment(a.deadline).date() === value.date())
             .sort((a, b) => a.id - b.id)

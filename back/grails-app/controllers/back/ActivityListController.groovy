@@ -1,7 +1,9 @@
 package back
 
+import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
 
+@Secured('isAuthenticated()')
 class ActivityListController extends RestfulController<ActivityList> {
     static responseFormats = ['json', 'xml']
 

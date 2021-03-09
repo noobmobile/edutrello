@@ -3,7 +3,6 @@ import back.User
 model {
     User user
 }
-println "a"
 json {
     id user.id
     name user.name

@@ -69,7 +69,7 @@ function* createTaskRequest({activity, title}){
     const toSend = {
         title: title,
         creator: { // CURRENT USER
-            id: currentUser,
+            id: localStorage.currentUser,
         },
         activityList: {
             id: activity.id

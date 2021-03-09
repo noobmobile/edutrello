@@ -209,7 +209,7 @@ class Board extends React.Component {
     };
 
     createTeamModal = c => {
-        const isLeader = c.leader.id === currentUser
+        const isLeader = c.leader.id === localStorage.currentUser
         return (
             <Modal
             visible={this.state.visibleModal === c.id}
@@ -357,7 +357,7 @@ class Board extends React.Component {
             members: values.members.map(m => this.props.users.find(m2 => m2.name === m).id),
             leader: this.props.users.find(m => m.name === values.leader).id
         }
-        if (values.leader != currentUser){
+        if (values.leader != localStorage.currentUser){
             Modal.confirm({
                 title: "Você tem certeza?",
                 icon: <ExclamationCircleOutlined />,
